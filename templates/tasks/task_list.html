@@ -34,7 +34,7 @@
     </a>
   </h2>
   <table border="1" cellpadding="8" cellspacing="0" style="border-collapse: collapse;">
-  <thead>
+    <thead>
     <tr>
       <th>Name task</th>
       <th>Priority</th>
@@ -43,8 +43,8 @@
       <th>Status</th>
       <th>Task type</th>
     </tr>
-  </thead>
-  <tbody>
+    </thead>
+    <tbody>
     {% for task in task_list %}
       <tr>
         <td><a href="{% url 'tasks:task-detail' task.id %}">{{ task.name }}</a></td>
@@ -59,8 +59,9 @@
         <td>{{ task.deadline|date:"Y-m-d H:i" }}</td>
         <td>{% if task.is_complete %}Done{% else %}In Progress{% endif %}</td>
         <td>{{ task.task_type.name }}</td>
+        <td>{% if task.is_complete %}Done{% else %}In Progress{% endif %}</td>
       </tr>
     {% endfor %}
-  </tbody>
-</table>
+    </tbody>
+  </table>
 {% endblock %}
