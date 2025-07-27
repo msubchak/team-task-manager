@@ -15,22 +15,29 @@
       </tr>
     </thead>
     <tbody>
-      {% for task in worker.task_set.all %}
-        <tr>
-          <td>{{ worker.first_name }} {{ worker.last_name }}</td>
-          <td>{{ worker.position }}</td>
-          <td>{{ worker.username }}</td>
-          <td>{{ worker.email }}</td>
-          <td>{{ task.name }}</td>
-          <td>{{ task.task_type.name }}</td>
-          <td>{{ task.deadline|date:"Y-m-d H:i" }}</td>
-          <td>{% if task.is_complete %}Done{% else %}In Progress{% endif %}</td>
-        </tr>
-      {% empty %}
-        <tr>
-          <td colspan="8">No tasks assigned</td>
-        </tr>
-      {% endfor %}
-    </tbody>
+  {% for task in worker.task_set.all %}
+    <tr>
+      <td>{{ worker.first_name }} {{ worker.last_name }}</td>
+      <td>{{ worker.position }}</td>
+      <td>{{ worker.username }}</td>
+      <td>{{ worker.email }}</td>
+      <td>{{ task.name }}</td>
+      <td>{{ task.task_type.name }}</td>
+      <td>{{ task.deadline|date:"Y-m-d H:i" }}</td>
+      <td>{% if task.is_complete %}Done{% else %}In Progress{% endif %}</td>
+    </tr>
+  {% empty %}
+    <tr>
+      <td>{{ worker.first_name }} {{ worker.last_name }}</td>
+      <td>{{ worker.position }}</td>
+      <td>{{ worker.username }}</td>
+      <td>{{ worker.email }}</td>
+      <td>-</td>
+      <td>-</td>
+      <td>-</td>
+      <td>-</td>
+    </tr>
+  {% endfor %}
+</tbody>
   </table>
 {% endblock %}

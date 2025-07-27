@@ -3,7 +3,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from tasks.models import Worker, Task
 
@@ -29,19 +29,25 @@ class TaskListView(LoginRequiredMixin, ListView):
         return context
 
 
-class TaskCreateView(LoginRequiredMixin, CreateView):
-    model = Task
-    success_url = reverse_lazy("tasks:task_list")
-    fields = "__all__"
-
-
 class TaskDetailView(LoginRequiredMixin, DetailView):
     model = Task
 
 
+class TaskCreateView(LoginRequiredMixin, CreateView):
+    model = Task
+    success_url = reverse_lazy("tasks:task-list")
+    fields = "__all__"
+
+
+class TaskDeleteView(LoginRequiredMixin, DeleteView):
+    model = Task
+    success_url = reverse_lazy("tasks:task-list")
+    template_name = "tasks/task_delete.html"
+
+
 class TaskUpdateView(LoginRequiredMixin, UpdateView):
     model = Task
-    success_url = reverse_lazy("tasks:task_list")
+    success_url = reverse_lazy("tasks:task-list")
     fields = "__all__"
 
 
