@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>Detail about this task:</h1>
+  <table border="1" cellpadding="8" cellspacing="0" style="border-collapse: collapse;">
+    <thead>
+    <tr>
+      <th>Name task</th>
+      <th>Description</th>
+      <th>Priority</th>
+      <th>Assignees</th>
+      <th>Assignees</th>
+      <th>Deadline</th>
+      <th>Status</th>
+      <th>Task type</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>{{ task.name }}</td>
+      <td>{{ task.description }}</td>
+      <td>{{ task.priority }}</td>
+    <td>{{ task.assignees }}</td>
+      <td>
+        {% for assignee in task.assignees.all %}
+          {{ assignee.first_name }} {{ assignee.last_name }}{% if not forloop.last %}, {% endif %}
+        {% empty %}
+          -
+        {% endfor %}
+      </td>
+      <td>{{ task.deadline|date:"Y-m-d H:i" }}</td>
+      <td>{% if task.is_complete %}Done{% else %}In Progress{% endif %}</td>
+      <td>{{ task.task_type.name }}</td>
+    </tr>
+    </tbody>
+  </table>
+{% endblock %}

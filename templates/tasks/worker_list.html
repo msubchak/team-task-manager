@@ -5,35 +5,33 @@
   {% if worker_list %}
     <table border="1" cellpadding="8" cellspacing="0">
       <thead>
-        <tr>
-          <th>Full name</th>
-          <th>Username</th>
-          <th>Position</th>
-          <th>Email</th>
-          <th>Joined</th>
-          <th>Tasks</th>
-        </tr>
+      <tr>
+        <th>Full name</th>
+        <th>Username</th>
+        <th>Position</th>
+        <th>Email</th>
+        <th>Joined</th>
+        <th>Tasks</th>
+      </tr>
       </thead>
       <tbody>
-        {% for worker in worker_list %}
-          <tr>
-            <td>
-              <a href="{% url 'tasks:worker-detail' worker.id %}">
-                {{ worker.first_name }} {{ worker.last_name }}
+      {% for worker in worker_list %}
+        <tr>
+          <td>
+            <a href="{% url 'tasks:worker-detail' worker.id %}">
+              {{ worker.first_name }} {{ worker.last_name }}
             </a>
-            </td>
-            <td>{{ worker.username }}</td>
-            <td>{{ worker.position }}</td>
-            <td>{{ worker.email }}</td>
-            <td>{{ worker.date_joined|date:"Y-m-d" }}</td>
-            <td>{{ worker.task_set.count }}</td>
-            
-          </tr>
-        {% endfor %}
+          </td>
+          <td>{{ worker.username }}</td>
+          <td>{{ worker.position }}</td>
+          <td>{{ worker.email }}</td>
+          <td>{{ worker.date_joined|date:"Y-m-d" }}</td>
+          <td>{{ worker.task_set.count }}</td>
+        </tr>
+      {% endfor %}
       </tbody>
     </table>
   {% else %}
     <p>No workers found.</p>
   {% endif %}
-
 {% endblock %}
