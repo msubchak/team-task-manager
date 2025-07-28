@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
   <h1>About worker:</h1>
+  <form method="get" action="">
+   {{ search_form }}
+  <input type="submit">
+  </form>
   <table class="worker-detail">
     <thead>
       <tr>
@@ -15,7 +19,7 @@
       </tr>
     </thead>
     <tbody>
-  {% for task in worker.task_set.all %}
+  {% for task in tasks %}
     <tr>
       <td>{{ worker.first_name }} {{ worker.last_name }}</td>
       <td>{{ worker.position }}</td>

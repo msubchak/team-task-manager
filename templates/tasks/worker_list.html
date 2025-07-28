@@ -1,13 +1,16 @@
 {% extends "base.html" %}
 {% block content %}
   <h1>Employee information</h1>
-
+  <form method="get" action="">
+    {{ search_form }}
+    <input type="submit">
+  </form>
   {% if worker_list %}
     <table class="worker-list">
       <thead>
       <tr>
-        <th>Full name</th>
         <th>Username</th>
+        <th>Full name</th>
         <th>Position</th>
         <th>Email</th>
         <th>Joined</th>
@@ -19,10 +22,12 @@
         <tr>
           <td>
             <a href="{% url 'tasks:worker-detail' worker.id %}">
-              {{ worker.first_name }} {{ worker.last_name }}
+              {{ worker.username }}
             </a>
           </td>
-          <td>{{ worker.username }}</td>
+          <td>
+            {{ worker.first_name }} {{ worker.last_name }}
+          </td>
           <td>{{ worker.position }}</td>
           <td>{{ worker.email }}</td>
           <td>{{ worker.date_joined|date:"Y-m-d" }}</td>
