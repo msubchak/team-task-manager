@@ -7,6 +7,7 @@ from django.template import context
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
+from tasks.forms import TaskForm
 from tasks.models import Worker, Task
 
 
@@ -41,7 +42,7 @@ class TaskDetailView(LoginRequiredMixin, DetailView):
 class TaskCreateView(LoginRequiredMixin, CreateView):
     model = Task
     success_url = reverse_lazy("tasks:task-list")
-    fields = "__all__"
+    form_class = TaskForm
 
 
 class TaskDeleteView(LoginRequiredMixin, DeleteView):
@@ -53,7 +54,7 @@ class TaskDeleteView(LoginRequiredMixin, DeleteView):
 class TaskUpdateView(LoginRequiredMixin, UpdateView):
     model = Task
     success_url = reverse_lazy("tasks:task-list")
-    fields = "__all__"
+    form_class = TaskForm
 
 
 class WorkerListView(LoginRequiredMixin, ListView):
