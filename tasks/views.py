@@ -45,6 +45,7 @@ class TaskListView(LoginRequiredMixin, ListView):
             return queryset.filter(name__icontains=form.cleaned_data["name"])
         return queryset
 
+
 class TaskDetailView(LoginRequiredMixin, DetailView):
     model = Task
 
@@ -84,7 +85,7 @@ class WorkerListView(LoginRequiredMixin, ListView):
         queryset = Worker.objects.select_related("position")
         form = WorkerSearchForm(self.request.GET)
         if form.is_valid():
-            return queryset.filter(username__icontains=form.cleaned_data["search"])
+            return queryset.filter(username__icontains=form.cleaned_data["username"])
         return queryset
 
 

@@ -30,7 +30,7 @@ class WorkerTaskSearchForm(forms.Form):
 
 
 class WorkerSearchForm(forms.Form):
-    search = forms.CharField(
+    username = forms.CharField(
         max_length=255,
         required=False,
         label="",
