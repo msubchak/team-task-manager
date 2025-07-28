@@ -1,7 +1,9 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.paginator import Paginator
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
+from django.template import context
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
@@ -19,6 +21,7 @@ def index(request: HttpRequest) -> HttpResponse:
 
 class TaskListView(LoginRequiredMixin, ListView):
     model = Task
+    paginate_by = 10
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -53,6 +56,7 @@ class TaskUpdateView(LoginRequiredMixin, UpdateView):
 
 class WorkerListView(LoginRequiredMixin, ListView):
     model = Worker
+    paginate_by = 10
 
 
 class WorkerDetailView(LoginRequiredMixin, DetailView):
