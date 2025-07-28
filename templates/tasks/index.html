@@ -1,4 +1,28 @@
 {% extends "base.html" %}
 {% block content %}
-  <h1>Test</h1>
+  <h1>Welcome to the Task Manager</h1>
+  <h2>Manage your team, assign tasks, and track progress efficiently</h2>
+  <h3>Latest 5 added tasks</h3>
+  <table border="1" cellpadding="8" cellspacing="0" style="border-collapse: collapse;">
+  <thead>
+  <tr>
+    <th>Name</th>
+    <th>Priority</th>
+    <th>Deadline</th>
+    <th>Progress</th>
+  </tr>
+  </thead>
+  <tbody>
+  {% for task in tasks %}
+    <tr>
+      <td>
+        <a href="{% url 'tasks:task-detail' task.id %}">{{ task.name }}</a>
+      </td>
+      <td>{{ task.priority }}</td>
+      <td>{{ task.deadline }}</td>
+      <td>{% if task.is_complete %}Done{% else %}In Progress{% endif %}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+  </table>
 {% endblock %}

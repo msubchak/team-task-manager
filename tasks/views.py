@@ -13,8 +13,10 @@ from tasks.models import Worker, Task
 login_required
 def index(request: HttpRequest) -> HttpResponse:
     num_worker = Worker.objects.all().count()
+    tasks = Task.objects.all().order_by('-id')[:5]
     context = {
         "num_worker": num_worker,
+        "tasks": tasks,
     }
     return render(request, "tasks/index.html", context=context)
 
