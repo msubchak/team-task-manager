@@ -3,7 +3,7 @@
   <h1>Detail about this task:<a href={% url 'tasks:task-update' task.id %}>Update</a>
     <a href="{% url 'tasks:task-delete' task.id %}">Delete</a>
   </h1>
-  <table border="1" cellpadding="8" cellspacing="0" style="border-collapse: collapse;">
+  <table class="task-detail">
     <thead>
     <tr>
       <th>Name task</th>

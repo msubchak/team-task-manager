@@ -1,0 +1,26 @@
+.index-table,
+.task-detail,
+.task-list-statistics,
+.task-list-table,
+.worker-detail,
+.worker-list {
+    border-collapse: collapse;
+    border: 1px solid black;
+    padding: 8px;
+}
+
+.index-table td, .index-table th,
+.task-detail td, .task-detail th,
+.task-list-statistics td, .task-list-statistics th,
+.task-list-table td, .task-list-table th,
+.worker-detail td, .worker-detail th,
+.worker-list td, .worker-list th {
+    padding: 8px;
+    border: 1px solid black;
+}
+
+.sidebar {
+    margin-left: 0;
+    padding-left: 0;
+    list-style-type: none;
+}

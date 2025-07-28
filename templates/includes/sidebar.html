@@ -1,4 +1,4 @@
-<ul class="sidebar-nav list-group" style="list-style-type: none;">
+<ul class="sidebar">
   {% if user.is_authenticated %}
     <li class="list-group-item">User:
       <a href="{% url 'tasks:worker-detail' user.id %}">

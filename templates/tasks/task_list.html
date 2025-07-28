@@ -1,7 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
-  <h2>Dashboard</h2>
-  <table border="1" cellpadding="8" cellspacing="0" style="border-collapse: collapse;">
+  <h1>Dashboard</h1>
+  <br>
+  <h2>Key statistics</h2>
+  <table class="task-list-statistics">
     <thead>
     <tr>
       <th>Name</th>
@@ -27,13 +29,14 @@
     </tr>
     </tbody>
   </table>
+  <br>
   <h2>
     Tasks Table
     <a href="{% url 'tasks:task-create' %}">
       Add task
     </a>
   </h2>
-  <table border="1" cellpadding="8" cellspacing="0" style="border-collapse: collapse;">
+  <table class="task-list-table">
     <thead>
     <tr>
       <th>Name task</th>
