@@ -8,7 +8,10 @@
     <tr>
       <th>Name task</th>
       <th>Description</th>
+      <th>Tags</th>
       <th>Priority</th>
+      <th>Project</th>
+      <th>Team</th>
       <th>Assignees</th>
       <th>Deadline</th>
       <th>Status</th>
@@ -19,7 +22,18 @@
     <tr>
       <td>{{ task.name }}</td>
       <td>{{ task.description }}</td>
+      <td>
+        {% for tag in task.tags.all %}
+          {{ tag.name }}
+        {% endfor %}
+      </td>
       <td>{{ task.priority }}</td>
+      <td>{{ task.project }}</td>
+      <td>
+        {% for team in task.project.team.all %}
+          {{ team.name }}{% if not forloop.last %},{% endif %}
+        {% endfor %}
+      </td>
       <td>
         {% for assignee in task.assignees.all %}
           {{ assignee.first_name }} {{ assignee.last_name }}{% if not forloop.last %}, {% endif %}

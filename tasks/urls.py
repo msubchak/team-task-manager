@@ -8,6 +8,8 @@ from tasks.views import (
     TaskUpdateView,
     TaskDetailView,
     TaskDeleteView,
+    TeamListView,
+    TeamDetailView,
 )
 
 app_name = "taxi"
@@ -19,6 +21,8 @@ urlpatterns = [
     path("dashboard/create/", TaskCreateView.as_view(), name="task-create"),
     path("dashboard/<int:pk>/delete/", TaskDeleteView.as_view(), name="task-delete"),
     path("dashboard/<int:pk>/update/", TaskUpdateView.as_view(), name="task-update"),
-    path("workers/", WorkerListView.as_view(), name="worker-list"),
+    path("teams/", TeamListView.as_view(), name="team-list"),
+    path("teams/<int:pk>/", TeamDetailView.as_view(), name="team-detail"),
+    path("members/", WorkerListView.as_view(), name="worker-list"),
     path("worker/<int:pk>/", WorkerDetailView.as_view(), name="worker-detail"),
 ]

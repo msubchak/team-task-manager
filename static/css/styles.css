@@ -3,7 +3,9 @@
 .task-list-statistics,
 .task-list-table,
 .worker-detail,
-.worker-list {
+.worker-list,
+.team-list,
+.team-detail {
     border-collapse: collapse;
     border: 1px solid black;
     padding: 8px;
@@ -14,7 +16,9 @@
 .task-list-statistics td, .task-list-statistics th,
 .task-list-table td, .task-list-table th,
 .worker-detail td, .worker-detail th,
-.worker-list td, .worker-list th {
+.worker-list td, .worker-list th,
+.team-list td, .team-list th,
+.team-detail td, .team-detail th {
     padding: 8px;
     border: 1px solid black;
 }

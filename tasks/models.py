@@ -60,7 +60,13 @@ class Worker(AbstractUser):
     password = models.CharField(max_length=255)
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
-    team = models.ForeignKey("Team", blank=True, on_delete=models.SET_NULL, null=True)
+    team = models.ForeignKey(
+        "Team",
+        blank=True,
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name='workers',
+    )
 
     class Meta:
         verbose_name = "Worker"

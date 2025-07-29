@@ -16,6 +16,8 @@
       <th>Task type</th>
       <th>Task deadline</th>
       <th>Task status</th>
+      <th>Project</th>
+      <th>Team</th>
     </tr>
     </thead>
     <tbody>
@@ -25,10 +27,14 @@
         <td>{{ worker.position }}</td>
         <td>{{ worker.username }}</td>
         <td>{{ worker.email }}</td>
-        <td>{{ task.name }}</td>
+        <td>
+          <a href="{% url 'tasks:task-detail' task.id %}">{{ task.name }}</a>
+        </td>
         <td>{{ task.task_type.name }}</td>
         <td>{{ task.deadline|date:"Y-m-d H:i" }}</td>
         <td>{% if task.is_complete %}Done{% else %}In Progress{% endif %}</td>
+        <td>{{ task.project }}</td>
+        <td>{{ worker.team.name }}</td>
       </tr>
     {% empty %}
       <tr>
@@ -36,6 +42,8 @@
         <td>{{ worker.position }}</td>
         <td>{{ worker.username }}</td>
         <td>{{ worker.email }}</td>
+        <td>-</td>
+        <td>-</td>
         <td>-</td>
         <td>-</td>
         <td>-</td>

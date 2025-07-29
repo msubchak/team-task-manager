@@ -9,6 +9,8 @@
       <th>Name</th>
       <th>Priority</th>
       <th>Deadline</th>
+      <th>Task type</th>
+      <th>Tags</th>
       <th>Progress</th>
     </tr>
     </thead>
@@ -20,6 +22,12 @@
         </td>
         <td>{{ task.priority }}</td>
         <td>{{ task.deadline }}</td>
+        <td>{{ task.task_type }}</td>
+        <td>
+          {% for tag in task.tags.all %}
+            {{ tag.name }}{% if not forloop.last %},{% endif %}
+          {% endfor %}
+        </td>
         <td>{% if task.is_complete %}Done{% else %}In Progress{% endif %}</td>
       </tr>
     {% endfor %}

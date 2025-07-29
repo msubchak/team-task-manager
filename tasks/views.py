@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
+from django.db.models import Count
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.template import context
@@ -8,8 +9,7 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from tasks.forms import TaskForm, WorkerTaskSearchForm, WorkerSearchForm
-from tasks.models import Worker, Task
-
+from tasks.models import Worker, Task, Project, Team
 
 login_required
 def index(request: HttpRequest) -> HttpResponse:
@@ -24,7 +24,7 @@ def index(request: HttpRequest) -> HttpResponse:
 
 class TaskListView(LoginRequiredMixin, ListView):
     model = Task
-    paginate_by = 10
+    paginate_by = 5
 
     def get_context_data(self, **kwargs):
         context = super(TaskListView, self).get_context_data(**kwargs)
@@ -32,6 +32,7 @@ class TaskListView(LoginRequiredMixin, ListView):
         context["num_tasks"] = Task.objects.count()
         context["num_in_progress"] = Task.objects.filter(is_complete=False).count()
         context["num_done"] = Task.objects.filter(is_complete=True).count()
+        context["num_projects"] = Project.objects.count()
         name = self.request.GET.get("name", "")
         context["search_form"] = WorkerTaskSearchForm(
             initial={"name": name}
@@ -103,4 +104,26 @@ class WorkerDetailView(LoginRequiredMixin, DetailView):
         if name:
             tasks = tasks.filter(name__icontains=name)
         context["tasks"] = tasks
+        return context
+
+
+class TeamListView(LoginRequiredMixin, ListView):
+    model = Team
+
+    def get_queryset(self):
+        context = Team.objects.annotate(
+            num_workers=Count("workers", distinct=True),
+            num_projects=Count("project", distinct=True),
+            num_tasks=Count("workers__task", distinct=True),
+        )
+        # context["num_done_tasks"] = Task.objects.filter(is_complete=True).count()
+        return context
+
+
+class TeamDetailView(LoginRequiredMixin, DetailView):
+    model = Team
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["workers"] = self.object.workers.all()
         return context

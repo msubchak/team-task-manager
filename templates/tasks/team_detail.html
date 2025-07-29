@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>About team:</h1>
+  <table class="team-detail">
+    <thead>
+    <tr>
+      <th>Full name</th>
+      <th>Username</th>
+      <th>Position</th>
+      <th>Username</th>
+      <th>Email</th>
+      <th>Total task</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for worker in workers %}
+      <tr>
+        <td>
+          <a href="{% url 'tasks:worker-detail' worker.id %}">{{ worker.first_name }} {{ worker.last_name }}</a>
+        </td>
+        <td>{{ worker.username }}</td>
+        <td>{{ worker.position }}</td>
+        <td>{{ worker.username }}</td>
+        <td>{{ worker.email }}</td>
+        <td>{{ worker.task_set.count }}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

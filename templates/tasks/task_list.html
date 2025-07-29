@@ -16,6 +16,10 @@
       <td>{{ num_workers }}</td>
     </tr>
     <tr>
+      <td>Projects</td>
+      <td>{{ num_projects }}</td>
+    </tr>
+    <tr>
       <td>tasks</td>
       <td>{{ num_tasks }}</td>
     </tr>
@@ -37,8 +41,8 @@
     </a>
   </h2>
   <form method="get" action="">
-   {{ search_form }}
-  <input type="submit">
+    {{ search_form }}
+    <input type="submit">
   </form>
   <table class="task-list-table">
     <thead>
