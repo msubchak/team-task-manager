@@ -15,6 +15,7 @@ class Task(models.Model):
         HIGH = "high", "High"
         MEDIUM = "medium", "Medium"
         LOW = "low", "Low"
+
     name = models.CharField(max_length=255)
     description = models.TextField()
     deadline = models.DateTimeField()
@@ -26,6 +27,30 @@ class Task(models.Model):
     )
     task_type = models.ForeignKey(TaskType, on_delete=models.CASCADE)
     assignees = models.ManyToManyField("Worker", blank=True)
+    tags = models.ManyToManyField("Tag", blank=True)
+    project = models.ForeignKey(
+        "Project",
+        on_delete=models.CASCADE,
+        related_name="tasks",
+        null=True,
+        blank=True,
+    )
+
+
+class Tag(models.Model):
+    name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
+
+
+class Project(models.Model):
+    name = models.CharField(max_length=255)
+    description = models.TextField()
+    team = models.ManyToManyField("Team", blank=True)
+
+    def __str__(self):
+        return self.name
 
 
 class Worker(AbstractUser):
@@ -35,12 +60,20 @@ class Worker(AbstractUser):
     password = models.CharField(max_length=255)
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
+    team = models.ForeignKey("Team", blank=True, on_delete=models.SET_NULL, null=True)
 
     class Meta:
         verbose_name = "Worker"
 
 
 class Position(models.Model):
+    name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
+
+
+class Team(models.Model):
     name = models.CharField(max_length=255)
 
     def __str__(self):
