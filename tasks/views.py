@@ -6,6 +6,7 @@ from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.template import context
 from django.urls import reverse_lazy
+from django.views import generic
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from tasks.forms import TaskForm, WorkerTaskSearchForm, WorkerSearchForm
@@ -22,7 +23,7 @@ def index(request: HttpRequest) -> HttpResponse:
     return render(request, "tasks/index.html", context=context)
 
 
-class TaskListView(LoginRequiredMixin, ListView):
+class TaskListView(LoginRequiredMixin, generic.ListView):
     model = Task
     paginate_by = 5
 
@@ -47,29 +48,29 @@ class TaskListView(LoginRequiredMixin, ListView):
         return queryset
 
 
-class TaskDetailView(LoginRequiredMixin, DetailView):
+class TaskDetailView(LoginRequiredMixin, generic.DetailView):
     model = Task
 
 
-class TaskCreateView(LoginRequiredMixin, CreateView):
+class TaskCreateView(LoginRequiredMixin, generic.CreateView):
     model = Task
     success_url = reverse_lazy("tasks:task-list")
     form_class = TaskForm
 
 
-class TaskDeleteView(LoginRequiredMixin, DeleteView):
+class TaskDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Task
     success_url = reverse_lazy("tasks:task-list")
     template_name = "tasks/task_delete.html"
 
 
-class TaskUpdateView(LoginRequiredMixin, UpdateView):
+class TaskUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Task
     success_url = reverse_lazy("tasks:task-list")
     form_class = TaskForm
 
 
-class WorkerListView(LoginRequiredMixin, ListView):
+class WorkerListView(LoginRequiredMixin, generic.ListView):
     model = Worker
     paginate_by = 10
 
@@ -90,7 +91,7 @@ class WorkerListView(LoginRequiredMixin, ListView):
         return queryset
 
 
-class WorkerDetailView(LoginRequiredMixin, DetailView):
+class WorkerDetailView(LoginRequiredMixin, generic.DetailView):
     model = Worker
 
     def get_context_data(self, **kwargs):
@@ -107,27 +108,27 @@ class WorkerDetailView(LoginRequiredMixin, DetailView):
         return context
 
 
-class WorkerCreateView(LoginRequiredMixin, CreateView):
+class WorkerCreateView(LoginRequiredMixin, generic.CreateView):
     model = Worker
     fields = "__all__"
     success_url = reverse_lazy("tasks:worker-list")
     template_name = "tasks/worker_form.html"
 
 
-class WorkerUpdateView(LoginRequiredMixin, UpdateView):
+class WorkerUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Worker
     fields = "__all__"
     success_url = reverse_lazy("tasks:worker-list")
     template_name = "tasks/worker_form.html"
 
 
-class WorkerDeleteView(LoginRequiredMixin, DeleteView):
+class WorkerDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Worker
     success_url = reverse_lazy("tasks:worker-list")
     template_name = "tasks/worker_delete.html"
 
 
-class TeamListView(LoginRequiredMixin, ListView):
+class TeamListView(LoginRequiredMixin, generic.ListView):
     model = Team
 
     def get_queryset(self):
@@ -139,7 +140,7 @@ class TeamListView(LoginRequiredMixin, ListView):
         return context
 
 
-class TeamDetailView(LoginRequiredMixin, DetailView):
+class TeamDetailView(LoginRequiredMixin, generic.DetailView):
     model = Team
 
     def get_context_data(self, **kwargs):
@@ -148,20 +149,20 @@ class TeamDetailView(LoginRequiredMixin, DetailView):
         return context
 
 
-class TeamCreateView(LoginRequiredMixin, CreateView):
+class TeamCreateView(LoginRequiredMixin, generic.CreateView):
     model = Team
     fields = "__all__"
     success_url = reverse_lazy("tasks:team-list")
     template_name = "tasks/team_form.html"
 
-class TeamUpdateView(LoginRequiredMixin, UpdateView):
+class TeamUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Team
     fields = "__all__"
     success_url = reverse_lazy("tasks:team-list")
     template_name = "tasks/team_form.html"
 
 
-class TeamDeleteView(LoginRequiredMixin, DeleteView):
+class TeamDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Team
     success_url = reverse_lazy("tasks:team-list")
     template_name = "tasks/team_delete.html"
