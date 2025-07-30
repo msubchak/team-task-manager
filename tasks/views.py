@@ -11,7 +11,7 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from tasks.forms import TaskForm, WorkerTaskSearchForm, WorkerSearchForm
 from tasks.models import Worker, Task, Project, Team
 
-login_required
+@login_required
 def index(request: HttpRequest) -> HttpResponse:
     num_worker = Worker.objects.all().count()
     tasks = Task.objects.all().order_by('-id')[:5]
@@ -107,6 +107,26 @@ class WorkerDetailView(LoginRequiredMixin, DetailView):
         return context
 
 
+class WorkerCreateView(LoginRequiredMixin, CreateView):
+    model = Worker
+    fields = "__all__"
+    success_url = reverse_lazy("tasks:worker-list")
+    template_name = "tasks/worker_form.html"
+
+
+class WorkerUpdateView(LoginRequiredMixin, UpdateView):
+    model = Worker
+    fields = "__all__"
+    success_url = reverse_lazy("tasks:worker-list")
+    template_name = "tasks/worker_form.html"
+
+
+class WorkerDeleteView(LoginRequiredMixin, DeleteView):
+    model = Worker
+    success_url = reverse_lazy("tasks:worker-list")
+    template_name = "tasks/worker_delete.html"
+
+
 class TeamListView(LoginRequiredMixin, ListView):
     model = Team
 
@@ -116,7 +136,6 @@ class TeamListView(LoginRequiredMixin, ListView):
             num_projects=Count("project", distinct=True),
             num_tasks=Count("workers__task", distinct=True),
         )
-        # context["num_done_tasks"] = Task.objects.filter(is_complete=True).count()
         return context
 
 
@@ -127,3 +146,22 @@ class TeamDetailView(LoginRequiredMixin, DetailView):
         context = super().get_context_data(**kwargs)
         context["workers"] = self.object.workers.all()
         return context
+
+
+class TeamCreateView(LoginRequiredMixin, CreateView):
+    model = Team
+    fields = "__all__"
+    success_url = reverse_lazy("tasks:team-list")
+    template_name = "tasks/team_form.html"
+
+class TeamUpdateView(LoginRequiredMixin, UpdateView):
+    model = Team
+    fields = "__all__"
+    success_url = reverse_lazy("tasks:team-list")
+    template_name = "tasks/team_form.html"
+
+
+class TeamDeleteView(LoginRequiredMixin, DeleteView):
+    model = Team
+    success_url = reverse_lazy("tasks:team-list")
+    template_name = "tasks/team_delete.html"

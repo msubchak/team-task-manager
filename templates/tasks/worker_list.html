@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
-  <h1>Employee information</h1>
+  <h1>
+    Employee information
+    <a href="{% url 'tasks:worker-create' %}">Add new employee</a>
+  </h1>
   <form method="get" action="">
     {{ search_form }}
     <input type="submit">
@@ -14,6 +17,7 @@
         <th>Position</th>
         <th>Email</th>
         <th>Joined</th>
+        <th>Team</th>
         <th>Total tasks</th>
       </tr>
       </thead>
@@ -31,6 +35,7 @@
           <td>{{ worker.position }}</td>
           <td>{{ worker.email }}</td>
           <td>{{ worker.date_joined|date:"Y-m-d" }}</td>
+          <td>{{ worker.team }}</td>
           <td>{{ worker.task_set.count }}</td>
         </tr>
       {% endfor %}

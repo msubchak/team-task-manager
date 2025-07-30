@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
-  <h1>About worker:</h1>
+  <h1>
+    About worker:
+    <a href="{% url 'tasks:worker-update' worker.id %}">Update</a>
+    <a href="{% url 'tasks:worker-delete' worker.id %}">Delete</a>
+  </h1>
   <form method="get" action="">
     {{ search_form }}
     <input type="submit">

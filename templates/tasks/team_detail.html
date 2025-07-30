@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
-  <h1>About team:</h1>
+  <h1>
+    About team:
+    <a href="{% url 'tasks:team-update' team.id %}">Update</a>
+    <a href="{% url 'tasks:team-delete' team.id %}">Delete</a>
+  </h1>
   <table class="team-detail">
     <thead>
     <tr>

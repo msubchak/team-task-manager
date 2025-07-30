@@ -10,9 +10,15 @@ from tasks.views import (
     TaskDeleteView,
     TeamListView,
     TeamDetailView,
+    WorkerCreateView,
+    WorkerUpdateView,
+    WorkerDeleteView,
+    TeamCreateView,
+    TeamUpdateView,
+    TeamDeleteView,
 )
 
-app_name = "taxi"
+app_name = "tasks"
 
 urlpatterns = [
     path("", index, name="index"),
@@ -22,7 +28,13 @@ urlpatterns = [
     path("dashboard/<int:pk>/delete/", TaskDeleteView.as_view(), name="task-delete"),
     path("dashboard/<int:pk>/update/", TaskUpdateView.as_view(), name="task-update"),
     path("teams/", TeamListView.as_view(), name="team-list"),
+    path("teams/create/", TeamCreateView.as_view(), name="team-create"),
+    path("teams/<int:pk>/update/", TeamUpdateView.as_view(), name="team-update"),
+    path("teams/<int:pk>/delete/", TeamDeleteView.as_view(), name="team-delete"),
     path("teams/<int:pk>/", TeamDetailView.as_view(), name="team-detail"),
     path("members/", WorkerListView.as_view(), name="worker-list"),
-    path("worker/<int:pk>/", WorkerDetailView.as_view(), name="worker-detail"),
+    path("members/create/", WorkerCreateView.as_view(), name="worker-create"),
+    path("members/<int:pk>/update/", WorkerUpdateView.as_view(), name="worker-update"),
+    path("members/<int:pk>/delete/", WorkerDeleteView.as_view(), name="worker-delete"),
+    path("members/<int:pk>/", WorkerDetailView.as_view(), name="worker-detail"),
 ]

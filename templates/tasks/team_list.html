@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
-  <h1>Team list</h1>
+  <h1>
+    Team list
+    <a href="{% url 'tasks:team-create' %}">Create new team</a>
+  </h1>
   {% if team_list %}
     <table class="team-list">
       <thead>
