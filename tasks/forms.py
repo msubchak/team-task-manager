@@ -1,7 +1,8 @@
 from django.contrib.auth import get_user_model
 from django import forms
+from django.contrib.auth.forms import UserCreationForm
 
-from tasks.models import Task
+from tasks.models import Task, Worker
 
 
 class TaskForm(forms.ModelForm):
@@ -16,6 +17,12 @@ class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
         fields = "__all__"
+
+
+class WorkerCreateForm(UserCreationForm):
+    class Meta:
+        model = Worker
+        fields = UserCreationForm.Meta.fields + ("first_name", "last_name", "email", "position", "team",)
 
 
 class WorkerTaskSearchForm(forms.Form):

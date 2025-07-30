@@ -9,7 +9,7 @@ from django.urls import reverse_lazy
 from django.views import generic
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
-from tasks.forms import TaskForm, WorkerTaskSearchForm, WorkerSearchForm
+from tasks.forms import TaskForm, WorkerTaskSearchForm, WorkerSearchForm, WorkerCreateForm
 from tasks.models import Worker, Task, Project, Team
 
 @login_required
@@ -110,14 +110,14 @@ class WorkerDetailView(LoginRequiredMixin, generic.DetailView):
 
 class WorkerCreateView(LoginRequiredMixin, generic.CreateView):
     model = Worker
-    fields = "__all__"
+    form_class = WorkerCreateForm
     success_url = reverse_lazy("tasks:worker-list")
     template_name = "tasks/worker_form.html"
 
 
 class WorkerUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Worker
-    fields = "__all__"
+    form_class = WorkerCreateForm
     success_url = reverse_lazy("tasks:worker-list")
     template_name = "tasks/worker_form.html"
 
