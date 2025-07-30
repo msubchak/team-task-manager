@@ -1,7 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
+  <h1>Employees tasks</h1>
+  <form method="get" action="">
+    {{ search_form }}
+    <input type="submit">
+  </form>
   {% if tasks %}
-    <h1>Employees tasks</h1>
     <table class="task-detail">
       <thead>
       <tr>
@@ -37,6 +41,6 @@
       </tbody>
     </table>
   {% else %}
-    <h2>This worker has no tasks yet</h2>
+    <h2>Tasks cannot be found</h2>
   {% endif %}
 {% endblock %}

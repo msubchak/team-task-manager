@@ -12,6 +12,7 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from tasks.forms import TaskForm, WorkerTaskSearchForm, WorkerSearchForm, WorkerCreateForm
 from tasks.models import Worker, Task, Project, Team
 
+
 @login_required
 def index(request: HttpRequest) -> HttpResponse:
     num_worker = Worker.objects.all().count()
@@ -132,10 +133,25 @@ class WorkerTaskListView(LoginRequiredMixin, generic.ListView):
     model = Task
     template_name = "tasks/worker_tasks.html"
     context_object_name = "tasks"
+    paginate_by = 5
+
+    def get_context_data(self, **kwargs):
+        context = super(WorkerTaskListView, self).get_context_data(**kwargs)
+        name = self.request.GET.get("name", "")
+        context["search_form"] = WorkerTaskSearchForm(
+            initial={"name": name}
+        )
+        return context
 
     def get_queryset(self):
         worker_id = self.kwargs["pk"]
-        return Task.objects.filter(assignees=worker_id).distinct()
+        queryset = Task.objects.filter(assignees=worker_id).distinct()
+        form = WorkerTaskSearchForm(self.request.GET)
+        if form.is_valid():
+            name = form.cleaned_data["name"]
+        if name:
+            queryset = queryset.filter(name__icontains=name)
+        return queryset
 
 
 class TeamListView(LoginRequiredMixin, generic.ListView):
@@ -164,6 +180,7 @@ class TeamCreateView(LoginRequiredMixin, generic.CreateView):
     fields = "__all__"
     success_url = reverse_lazy("tasks:team-list")
     template_name = "tasks/team_form.html"
+
 
 class TeamUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Team
