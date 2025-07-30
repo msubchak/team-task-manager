@@ -128,6 +128,16 @@ class WorkerDeleteView(LoginRequiredMixin, generic.DeleteView):
     template_name = "tasks/worker_delete.html"
 
 
+class WorkerTaskListView(LoginRequiredMixin, generic.ListView):
+    model = Task
+    template_name = "tasks/worker_tasks.html"
+    context_object_name = "tasks"
+
+    def get_queryset(self):
+        worker_id = self.kwargs["pk"]
+        return Task.objects.filter(assignees=worker_id).distinct()
+
+
 class TeamListView(LoginRequiredMixin, generic.ListView):
     model = Team
 

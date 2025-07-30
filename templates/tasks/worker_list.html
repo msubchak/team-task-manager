@@ -8,6 +8,7 @@
     {{ search_form }}
     <input type="submit">
   </form>
+
   {% if worker_list %}
     <table class="worker-list">
       <thead>
@@ -29,9 +30,7 @@
               {{ worker.username }}
             </a>
           </td>
-          <td>
-            {{ worker.first_name }} {{ worker.last_name }}
-          </td>
+          <td>{{ worker.first_name }} {{ worker.last_name }}</td>
           <td>{{ worker.position }}</td>
           <td>{{ worker.email }}</td>
           <td>{{ worker.date_joined|date:"Y-m-d" }}</td>
@@ -42,6 +41,6 @@
       </tbody>
     </table>
   {% else %}
-    <p>No workers found.</p>
+    <h2>The employee list is empty</h2>
   {% endif %}
 {% endblock %}

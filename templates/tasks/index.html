@@ -2,6 +2,7 @@
 {% block content %}
   <h1>Welcome to the Task Manager</h1>
   <h2>Manage your team, assign tasks, and track progress efficiently</h2>
+  {% if tasks %}
   <h3>Latest 5 added tasks</h3>
   <table class="index-table">
     <thead>
@@ -33,4 +34,7 @@
     {% endfor %}
     </tbody>
   </table>
+  {% else %}
+    <h2>No tasks were found</h2>
+  {% endif %}
 {% endblock %}

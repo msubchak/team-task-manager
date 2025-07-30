@@ -4,56 +4,28 @@
     About worker:
     <a href="{% url 'tasks:worker-update' worker.id %}">Update</a>
     <a href="{% url 'tasks:worker-delete' worker.id %}">Delete</a>
+    <a href="{% url 'tasks:worker-tasks' worker.id %}">All task this employee</a>
   </h1>
-  <form method="get" action="">
-    {{ search_form }}
-    <input type="submit">
-  </form>
   <table class="worker-detail">
     <thead>
     <tr>
       <th>Full name</th>
-      <th>Position</th>
       <th>Username</th>
       <th>Email</th>
-      <th>Task</th>
-      <th>Task type</th>
-      <th>Task deadline</th>
-      <th>Task status</th>
-      <th>Project</th>
+      <th>Position</th>
       <th>Team</th>
+      <th>Total task</th>
     </tr>
     </thead>
     <tbody>
-    {% for task in tasks %}
       <tr>
         <td>{{ worker.first_name }} {{ worker.last_name }}</td>
-        <td>{{ worker.position }}</td>
         <td>{{ worker.username }}</td>
         <td>{{ worker.email }}</td>
-        <td>
-          <a href="{% url 'tasks:task-detail' task.id %}">{{ task.name }}</a>
-        </td>
-        <td>{{ task.task_type.name }}</td>
-        <td>{{ task.deadline|date:"Y-m-d H:i" }}</td>
-        <td>{% if task.is_complete %}Done{% else %}In Progress{% endif %}</td>
-        <td>{{ task.project }}</td>
+        <td>{{ worker.position }}</td>
         <td>{{ worker.team.name }}</td>
+        <td>{{ worker.task_set.count }}</td>
       </tr>
-    {% empty %}
-      <tr>
-        <td>{{ worker.first_name }} {{ worker.last_name }}</td>
-        <td>{{ worker.position }}</td>
-        <td>{{ worker.username }}</td>
-        <td>{{ worker.email }}</td>
-        <td>-</td>
-        <td>-</td>
-        <td>-</td>
-        <td>-</td>
-        <td>-</td>
-        <td>-</td>
-      </tr>
-    {% endfor %}
     </tbody>
   </table>
 {% endblock %}
