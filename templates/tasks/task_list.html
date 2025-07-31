@@ -45,39 +45,39 @@
     <input type="submit">
   </form>
   {% if task_list %}
-  <table class="task-list-table">
-    <thead>
-    <tr>
-      <th>Name task</th>
-      <th>Priority</th>
-      <th>Assignees</th>
-      <th>Deadline</th>
-      <th>Status</th>
-      <th>Task type</th>
-      <th>Progress</th>
-    </tr>
-    </thead>
-    <tbody>
-    {% for task in task_list %}
+    <table class="task-list-table">
+      <thead>
       <tr>
-        <td><a href="{% url 'tasks:task-detail' task.id %}">{{ task.name }}</a></td>
-        <td>{{ task.priority }}</td>
-        <td>
-          {% for assignee in task.assignees.all %}
-            {{ assignee.first_name }} {{ assignee.last_name }}{% if not forloop.last %}, {% endif %}
-          {% empty %}
-            -
-          {% endfor %}
-        </td>
-        <td>{{ task.deadline|date:"Y-m-d H:i" }}</td>
-        <td>{% if task.is_complete %}Done{% else %}In Progress{% endif %}</td>
-        <td>{{ task.task_type.name }}</td>
-        <td>{% if task.is_complete %}Done{% else %}In Progress{% endif %}</td>
+        <th>Name task</th>
+        <th>Priority</th>
+        <th>Assignees</th>
+        <th>Deadline</th>
+        <th>Status</th>
+        <th>Task type</th>
+        <th>Progress</th>
       </tr>
-    {% endfor %}
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+      {% for task in task_list %}
+        <tr>
+          <td><a href="{% url 'tasks:task-detail' task.id %}">{{ task.name }}</a></td>
+          <td>{{ task.priority }}</td>
+          <td>
+            {% for assignee in task.assignees.all %}
+              {{ assignee.first_name }} {{ assignee.last_name }}{% if not forloop.last %}, {% endif %}
+            {% empty %}
+              -
+            {% endfor %}
+          </td>
+          <td>{{ task.deadline|date:"Y-m-d H:i" }}</td>
+          <td>{% if task.is_complete %}Done{% else %}In Progress{% endif %}</td>
+          <td>{{ task.task_type.name }}</td>
+          <td>{% if task.is_complete %}Done{% else %}In Progress{% endif %}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
   {% else %}
-  <h2>Cannot find tasks</h2>
+    <h2>Cannot find tasks</h2>
   {% endif %}
 {% endblock %}

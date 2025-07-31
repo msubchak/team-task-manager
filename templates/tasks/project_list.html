@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>
+    Project list
+    <a href="{% url 'tasks:project-create' %}">Create new project</a>
+  </h1>
+  {% if project_list %}
+    <table class="project-table">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Team</th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for project in project_list %}
+        <tr>
+          <td>
+            <a href="{% url 'tasks:project-detail' project.id %}">{{ project.name }}</a>
+          </td>
+          <td>{{ project.description }}</td>
+          <td>
+            {% for team in project.team.all %}
+              {{ team.name }}{% if not forloop.last %},{% endif %}
+            {% empty %}
+              -
+            {% endfor %}
+          </td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <h2>No team found</h2>
+  {% endif %}
+{% endblock %}

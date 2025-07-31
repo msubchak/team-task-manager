@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>
+    About project
+    <a href="{% url 'tasks:project-update' project.id %}">Update</a>
+    <a href="{% url 'tasks:project-delete' project.id %}">Delete</a>
+  </h1>
+  <table class="project-detail">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Team</th>
+      </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{ project.name }}</td>
+          <td>{{ project.description }}</td>
+          <td>
+            {% for team in project.team.all %}
+              {{ team.name }}{% if not forloop.last %},{% endif %}
+            {% empty %}
+              -
+            {% endfor %}
+          </td>
+        </tr>
+      </tbody>
+  </table>
+{% endblock %}

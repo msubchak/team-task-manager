@@ -6,7 +6,9 @@
 .worker-list,
 .team-list,
 .team-detail,
-.worker-tasks {
+.worker-tasks,
+.project-table,
+.project-detail {
     border-collapse: collapse;
     border: 1px solid black;
     padding: 8px;
@@ -20,7 +22,9 @@
 .worker-list td, .worker-list th,
 .team-list td, .team-list th,
 .team-detail td, .team-detail th,
-.worker-tasks td, .worker-tasks th {
+.worker-tasks td, .worker-tasks th,
+.project-table td, .project-table th,
+.project-detail td, .project-detail th {
     padding: 8px;
     border: 1px solid black;
 }
