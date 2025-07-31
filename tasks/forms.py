@@ -22,7 +22,13 @@ class TaskForm(forms.ModelForm):
 class WorkerCreateForm(UserCreationForm):
     class Meta:
         model = Worker
-        fields = UserCreationForm.Meta.fields + ("first_name", "last_name", "email", "position", "team",)
+        fields = UserCreationForm.Meta.fields + ("first_name", "last_name", "username", "email", "position", "team",)
+
+
+class WorkerUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Worker
+        fields =("first_name", "last_name", "username", "email", "position", "team",)
 
 
 class WorkerTaskSearchForm(forms.Form):

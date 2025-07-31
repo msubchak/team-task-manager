@@ -10,7 +10,7 @@ from django.views import generic
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from tasks.forms import TaskForm, WorkerTaskSearchForm, WorkerSearchForm, WorkerCreateForm, ProjectCreateForm, \
-    ProjectSearchForm
+    ProjectSearchForm, WorkerUpdateForm
 from tasks.models import Worker, Task, Project, Team
 
 
@@ -119,7 +119,7 @@ class WorkerCreateView(LoginRequiredMixin, generic.CreateView):
 
 class WorkerUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Worker
-    form_class = WorkerCreateForm
+    form_class = WorkerUpdateForm
     success_url = reverse_lazy("tasks:worker-list")
     template_name = "tasks/worker_form.html"
 
