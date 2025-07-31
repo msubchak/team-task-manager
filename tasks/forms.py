@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 
-from tasks.models import Task, Worker, Team
+from tasks.models import Task, Worker, Team, Project
 
 
 class TaskForm(forms.ModelForm):
@@ -56,3 +56,15 @@ class WorkerTaskSearchForm(forms.Form):
             attrs={"placeholder": "Search by name task"}
         )
     )
+
+
+class ProjectCreateForm(forms.ModelForm):
+    team = forms.ModelMultipleChoiceField(
+        queryset=Team.objects.all(),
+        widget=forms.CheckboxSelectMultiple,
+        required=False,
+    )
+
+    class Meta:
+        model = Project
+        fields = ("name", "description", "team",)

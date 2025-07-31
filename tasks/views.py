@@ -9,7 +9,7 @@ from django.urls import reverse_lazy
 from django.views import generic
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
-from tasks.forms import TaskForm, WorkerTaskSearchForm, WorkerSearchForm, WorkerCreateForm
+from tasks.forms import TaskForm, WorkerTaskSearchForm, WorkerSearchForm, WorkerCreateForm, ProjectCreateForm
 from tasks.models import Worker, Task, Project, Team
 
 
@@ -197,7 +197,7 @@ class TeamDeleteView(LoginRequiredMixin, generic.DeleteView):
 
 class ProjectListView(LoginRequiredMixin, generic.ListView):
     model = Project
-
+    paginate_by = 5
 
 class ProjectDetailView(LoginRequiredMixin, generic.DetailView):
     model = Project
@@ -205,16 +205,17 @@ class ProjectDetailView(LoginRequiredMixin, generic.DetailView):
 
 class ProjectCreateView(LoginRequiredMixin, generic.CreateView):
     model = Project
-    fields = "__all__"
+    form_class = ProjectCreateForm
     success_url = reverse_lazy("tasks:project-list")
 
 
 class ProjectUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Project
-    fields = "__all__"
+    form_class = ProjectCreateForm
     success_url = reverse_lazy("tasks:project-list")
 
 
 class ProjectDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Project
+    success_url = reverse_lazy("tasks:project-list")
     template_name = "tasks/project_delete.html"
