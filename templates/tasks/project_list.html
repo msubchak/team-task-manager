@@ -14,7 +14,8 @@
       <tr>
         <th>Name</th>
         <th>Description</th>
-        <th>Team</th>
+        <th>Total tasks</th>
+        <th>Active teams</th>
       </tr>
       </thead>
       <tbody>
@@ -24,6 +25,7 @@
             <a href="{% url 'tasks:project-detail' project.id %}">{{ project.name }}</a>
           </td>
           <td>{{ project.description }}</td>
+          <td>{{ project.tasks.count }}</td>
           <td>
             {% for team in project.team.all %}
               {{ team.name }}{% if not forloop.last %},{% endif %}

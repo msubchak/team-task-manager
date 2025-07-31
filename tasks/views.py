@@ -18,9 +18,11 @@ from tasks.models import Worker, Task, Project, Team
 def index(request: HttpRequest) -> HttpResponse:
     num_worker = Worker.objects.all().count()
     tasks = Task.objects.all().order_by('-id')[:5]
+    projects = Project.objects.all().order_by('-id')[:3]
     context = {
         "num_worker": num_worker,
         "tasks": tasks,
+        "projects": projects,
     }
     return render(request, "tasks/index.html", context=context)
 
