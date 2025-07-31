@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 
-from tasks.models import Task, Worker, Team, Project
+from tasks.models import Task, Worker, Team, Project, Tag
 
 
 class TaskForm(forms.ModelForm):
@@ -14,6 +14,12 @@ class TaskForm(forms.ModelForm):
     deadline = forms.DateTimeField(
         widget=forms.DateTimeInput(attrs={"type": "datetime-local"})
     )
+    tags = forms.ModelMultipleChoiceField(
+        queryset=Tag.objects.all(),
+        widget=forms.CheckboxSelectMultiple,
+        required=False,
+    )
+
     class Meta:
         model = Task
         fields = "__all__"
