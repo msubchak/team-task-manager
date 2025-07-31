@@ -4,6 +4,10 @@
     Project list
     <a href="{% url 'tasks:project-create' %}">Create new project</a>
   </h1>
+  <form method="get" action="">
+    {{ search_form }}
+    <input type="submit">
+  </form>
   {% if project_list %}
     <table class="project-table">
       <thead>
@@ -32,6 +36,6 @@
       </tbody>
     </table>
   {% else %}
-    <h2>No team found</h2>
+    <h2>No projects found</h2>
   {% endif %}
 {% endblock %}

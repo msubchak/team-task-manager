@@ -9,7 +9,8 @@ from django.urls import reverse_lazy
 from django.views import generic
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
-from tasks.forms import TaskForm, WorkerTaskSearchForm, WorkerSearchForm, WorkerCreateForm, ProjectCreateForm
+from tasks.forms import TaskForm, WorkerTaskSearchForm, WorkerSearchForm, WorkerCreateForm, ProjectCreateForm, \
+    ProjectSearchForm
 from tasks.models import Worker, Task, Project, Team
 
 
@@ -198,6 +199,20 @@ class TeamDeleteView(LoginRequiredMixin, generic.DeleteView):
 class ProjectListView(LoginRequiredMixin, generic.ListView):
     model = Project
     paginate_by = 5
+
+    def get_context_data(self, **kwargs):
+        context = super(ProjectListView, self).get_context_data(**kwargs)
+        name = self.request.GET.get("name", "")
+        context["search_form"] = ProjectSearchForm(
+            initial={"name": name}
+        )
+        return context
+
+    def get_queryset(self):
+        form = ProjectSearchForm(self.request.GET)
+        if form.is_valid():
+            return Project.objects.filter(name__icontains=form.cleaned_data["name"])
+        return self.queryset
 
 class ProjectDetailView(LoginRequiredMixin, generic.DetailView):
     model = Project
