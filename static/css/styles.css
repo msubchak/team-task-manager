@@ -8,7 +8,8 @@
 .team-detail,
 .worker-tasks,
 .project-table,
-.project-detail {
+.project-detail,
+.project-task-detail {
     border-collapse: collapse;
     border: 1px solid black;
     padding: 8px;
@@ -24,7 +25,8 @@
 .team-detail td, .team-detail th,
 .worker-tasks td, .worker-tasks th,
 .project-table td, .project-table th,
-.project-detail td, .project-detail th {
+.project-detail td, .project-detail th,
+.project-task-detail td, .project-task-detail th {
     padding: 8px;
     border: 1px solid black;
 }

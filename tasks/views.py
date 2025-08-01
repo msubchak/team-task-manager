@@ -216,6 +216,7 @@ class ProjectListView(LoginRequiredMixin, generic.ListView):
             return Project.objects.filter(name__icontains=form.cleaned_data["name"])
         return self.queryset
 
+
 class ProjectDetailView(LoginRequiredMixin, generic.DetailView):
     model = Project
 
@@ -236,3 +237,30 @@ class ProjectDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Project
     success_url = reverse_lazy("tasks:project-list")
     template_name = "tasks/project_delete.html"
+
+
+class ProjectTaskListView(LoginRequiredMixin, generic.ListView):
+    model = Task
+    template_name = "tasks/project_tasks.html"
+    context_object_name = "tasks"
+    paginate_by = 5
+
+
+    def get_context_data(self, **kwargs):
+        context = super(ProjectTaskListView, self).get_context_data(**kwargs)
+        name = self.request.GET.get("name", "")
+        context["search_form"] = WorkerTaskSearchForm(
+            initial={"name": name}
+        )
+        return context
+
+
+    def get_queryset(self):
+        worker_id = self.kwargs["pk"]
+        queryset = Task.objects.filter(project_id=worker_id).distinct()
+        form = WorkerTaskSearchForm(self.request.GET)
+        if form.is_valid():
+            name = form.cleaned_data["name"]
+        if name:
+            queryset = queryset.filter(name__icontains=name)
+        return queryset

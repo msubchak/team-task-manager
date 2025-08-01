@@ -4,27 +4,30 @@
     About project
     <a href="{% url 'tasks:project-update' project.id %}">Update</a>
     <a href="{% url 'tasks:project-delete' project.id %}">Delete</a>
+    <a href="{% url 'tasks:project-tasks' project.id %}">View Tasks</a>
   </h1>
   <table class="project-detail">
     <thead>
-      <tr>
-        <th>Name</th>
-        <th>Description</th>
-        <th>Team</th>
-      </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>{{ project.name }}</td>
-          <td>{{ project.description }}</td>
-          <td>
-            {% for team in project.team.all %}
-              {{ team.name }}{% if not forloop.last %},{% endif %}
-            {% empty %}
-              -
-            {% endfor %}
-          </td>
-        </tr>
-      </tbody>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Teams Involved</th>
+      <th>Total tasks</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>{{ project.name }}</td>
+      <td>{{ project.description }}</td>
+      <td>
+        {% for team in project.team.all %}
+          {{ team.name }}{% if not forloop.last %},{% endif %}
+        {% empty %}
+          -
+        {% endfor %}
+      <td>{{ project.tasks.count }}</td>
+      </td>
+    </tr>
+    </tbody>
   </table>
 {% endblock %}
