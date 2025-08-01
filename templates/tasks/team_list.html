@@ -11,6 +11,8 @@
         <th>Team</th>
         <th>Number of employees</th>
         <th>Total projects</th>
+        <th>Completed Tasks</th>
+        <th>Tasks In Progress</th>
         <th>Total tasks</th>
       </tr>
       </thead>
@@ -22,6 +24,8 @@
           </td>
           <td>{{ team.num_workers }}</td>
           <td>{{ team.num_projects }}</td>
+          <td>{{ team.complete_tasks }}</td>
+          <td>{{ team.in_progress_tasks }}</td>
           <td>{{ team.num_tasks }}</td>
         </tr>
       {% endfor %}

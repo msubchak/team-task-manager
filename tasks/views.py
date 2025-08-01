@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
-from django.db.models import Count
+from django.db.models import Count, Q
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.template import context
@@ -160,11 +160,27 @@ class WorkerTaskListView(LoginRequiredMixin, generic.ListView):
 class TeamListView(LoginRequiredMixin, generic.ListView):
     model = Team
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["complete_tasks"] = Task.objects.filter(is_complete=True)
+        context["in_progress"] = Task.objects.filter(is_complete=False)
+        return context
+
     def get_queryset(self):
         context = Team.objects.annotate(
             num_workers=Count("workers", distinct=True),
             num_projects=Count("project", distinct=True),
             num_tasks=Count("workers__task", distinct=True),
+            complete_tasks=Count(
+                "workers__task",
+                filter=Q(workers__task__is_complete=True),
+                distinct=True
+            ),
+            in_progress_tasks=Count(
+                "workers__task",
+                filter=Q(workers__task__is_complete=False),
+                distinct=True
+            )
         )
         return context
 
@@ -245,7 +261,6 @@ class ProjectTaskListView(LoginRequiredMixin, generic.ListView):
     context_object_name = "tasks"
     paginate_by = 5
 
-
     def get_context_data(self, **kwargs):
         context = super(ProjectTaskListView, self).get_context_data(**kwargs)
         name = self.request.GET.get("name", "")
@@ -253,7 +268,6 @@ class ProjectTaskListView(LoginRequiredMixin, generic.ListView):
             initial={"name": name}
         )
         return context
-
 
     def get_queryset(self):
         worker_id = self.kwargs["pk"]
