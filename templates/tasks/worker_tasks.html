@@ -26,7 +26,7 @@
           <td>{{ task.description }}</td>
           <td>{{ task.deadline }}</td>
           <td>
-            {% if is_complete %}Done{% else %}In Progress{% endif %}
+            {% if task.is_complete %}Done{% else %}In Progress{% endif %}
           </td>
           <td>{{ task.priority }}</td>
           <td>{{ task.task_type }}</td>
