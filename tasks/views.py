@@ -178,15 +178,16 @@ class TeamListView(LoginRequiredMixin, generic.ListView):
         return Team.objects.annotate(
             num_workers=Count("workers", distinct=True),
             num_projects=Count("project", distinct=True),
-            num_tasks=Count("workers__task", distinct=True),
+            num_tasks=Count("project__tasks", distinct=True),
             complete_tasks=Count(
-                "workers__task",
-                filter=Q(workers__task__is_complete=True),
+                "project__tasks",
+                filter=Q(project__tasks__is_complete=True),
                 distinct=True
+
             ),
             in_progress_tasks=Count(
-                "workers__task",
-                filter=Q(workers__task__is_complete=False),
+                "project__tasks",
+                filter=Q(project__tasks__is_complete=False),
                 distinct=True
             )
         )
@@ -196,8 +197,23 @@ class TeamDetailView(LoginRequiredMixin, generic.DetailView):
     model = Team
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+        team_id = self.kwargs["pk"]
+        context = super(TeamDetailView, self).get_context_data(**kwargs)
         context["workers"] = self.object.workers.all()
+        context["num_workers"] = Worker.objects.filter(team=team_id).count()
+        context["num_projects"] = Project.objects.filter(team=team_id).count()
+        context["complete_tasks"] = Task.objects.filter(
+            project__team=team_id,
+            is_complete=True,
+        ).distinct().count()
+        context["in_progress"] = Task.objects.filter(
+            project__team=team_id,
+            is_complete=False,
+        ).distinct().count()
+        context["assigned_tasks"] = Task.objects.filter(
+            project__team=team_id, assignees__team=team_id,
+        ).distinct().count()
+        context["num_tasks"] = Task.objects.filter(project__team=team_id).distinct().count()
         return context
 
 

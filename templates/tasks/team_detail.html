@@ -1,15 +1,50 @@
 {% extends "base.html" %}
 {% block content %}
   <h1>
-    About Team:
-    <a href="{% url 'tasks:team-update' team.id %}">Update</a>
-    <a href="{% url 'tasks:team-delete' team.id %}">Delete</a>
+    Team Summary:
   </h1>
   <table class="team-detail">
     <thead>
     <tr>
-      <th>Full name</th>
+      <th>Metric</th>
+      <th>Amount</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Employees</td>
+      <td>{{ num_workers }}</td>
+    </tr>
+    <tr>
+      <td>Projects</td>
+      <td>{{ num_projects }}</td>
+    <tr>
+      <td>Completed Tasks</td>
+      <td>{{ complete_tasks }}</td>
+    </tr>
+    <td>Tasks in Progress</td>
+    <td>{{ in_progress }}</td>
+    </tr>
+    <tr>
+      <td>Assigned Tasks</td>
+      <td>{{ assigned_tasks }}</td>
+    </tr>
+    <tr>
+      <td>Total Tasks</td>
+      <td>{{ num_tasks }}</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>
+    About Team:
+    <a href="{% url 'tasks:team-update' team.id %}">Update</a>
+    <a href="{% url 'tasks:team-delete' team.id %}">Delete</a>
+  </h2>
+  <table class="team-detail">
+    <thead>
+    <tr>
       <th>Username</th>
+      <th>Full Name</th>
       <th>Position</th>
       <th>Email</th>
       <th>Total Tasks</th>
@@ -19,9 +54,9 @@
     {% for worker in workers %}
       <tr>
         <td>
-          <a href="{% url 'tasks:worker-detail' worker.id %}">{{ worker.first_name }} {{ worker.last_name }}</a>
+          <a href="{% url 'tasks:worker-detail' worker.id %}">{{ worker.username }}</a>
         </td>
-        <td>{{ worker.username }}</td>
+        <td>{{ worker.first_name }} {{ worker.last_name }}</td>
         <td>{{ worker.position }}</td>
         <td>{{ worker.email }}</td>
         <td>{{ worker.task_set.count }}</td>
