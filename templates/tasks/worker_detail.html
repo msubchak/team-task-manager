@@ -14,6 +14,8 @@
       <th>Email</th>
       <th>Position</th>
       <th>Team</th>
+      <th>Completed Tasks</th>
+      <th>Tasks In Progress</th>
       <th>Total task</th>
     </tr>
     </thead>
@@ -24,6 +26,8 @@
         <td>{{ worker.email }}</td>
         <td>{{ worker.position }}</td>
         <td>{{ worker.team.name }}</td>
+        <td>{{ worker.complete_tasks }}</td>
+        <td>{{ worker.in_progress_tasks }}</td>
         <td>{{ worker.task_set.count }}</td>
       </tr>
     </tbody>

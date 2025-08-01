@@ -111,6 +111,20 @@ class WorkerDetailView(LoginRequiredMixin, generic.DetailView):
         context["tasks"] = tasks
         return context
 
+    def get_queryset(self):
+        return Worker.objects.annotate(
+            complete_tasks=Count(
+                "task",
+                filter=Q(task__is_complete=True),
+                distinct=True
+            ),
+            in_progress_tasks=Count(
+                "task",
+                filter=Q(task__is_complete=False),
+                distinct=True
+            )
+        )
+
 
 class WorkerCreateView(LoginRequiredMixin, generic.CreateView):
     model = Worker
@@ -161,7 +175,7 @@ class TeamListView(LoginRequiredMixin, generic.ListView):
     model = Team
 
     def get_queryset(self):
-        context = Team.objects.annotate(
+        return Team.objects.annotate(
             num_workers=Count("workers", distinct=True),
             num_projects=Count("project", distinct=True),
             num_tasks=Count("workers__task", distinct=True),
@@ -176,7 +190,6 @@ class TeamListView(LoginRequiredMixin, generic.ListView):
                 distinct=True
             )
         )
-        return context
 
 
 class TeamDetailView(LoginRequiredMixin, generic.DetailView):
