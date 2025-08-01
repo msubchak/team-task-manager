@@ -29,7 +29,7 @@ def index(request: HttpRequest) -> HttpResponse:
 
 class TaskListView(LoginRequiredMixin, generic.ListView):
     model = Task
-    paginate_by = 5
+    paginate_by = 8
 
     def get_context_data(self, **kwargs):
         context = super(TaskListView, self).get_context_data(**kwargs)
@@ -259,7 +259,7 @@ class ProjectTaskListView(LoginRequiredMixin, generic.ListView):
     model = Task
     template_name = "tasks/project_tasks.html"
     context_object_name = "tasks"
-    paginate_by = 5
+    paginate_by = 8
 
     def get_context_data(self, **kwargs):
         context = super(ProjectTaskListView, self).get_context_data(**kwargs)
