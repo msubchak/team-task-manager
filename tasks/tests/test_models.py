@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 
@@ -7,7 +9,7 @@ from tasks.models import (
     Project,
     Position,
     Team,
-    Worker
+    Worker, Task
 )
 
 
@@ -57,3 +59,20 @@ class ModelsTests(TestCase):
         self.assertEqual(worker.username, username)
         self.assertEqual(worker.team, team)
         self.assertTrue(worker.check_password(password))
+
+    def test_create_task_with_priority(self):
+        task_type = TaskType.objects.create(name="test")
+        project = Project.objects.create(
+            name="test",
+            description="test",
+        )
+        urgent = Task.Priority.URGENT
+        task = Task.objects.create(
+            name="test",
+            description="test",
+            deadline=datetime.now(),
+            task_type=task_type,
+            project=project,
+            priority=urgent,
+        )
+        self.assertEqual(task.priority, urgent)
