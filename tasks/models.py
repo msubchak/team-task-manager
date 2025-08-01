@@ -53,11 +53,6 @@ class Project(models.Model):
 
 class Worker(AbstractUser):
     position = models.ForeignKey("Position", on_delete=models.SET_NULL, null=True)
-    username = models.CharField(max_length=255, unique=True)
-    email = models.EmailField(max_length=255, unique=True)
-    password = models.CharField(max_length=255)
-    first_name = models.CharField(max_length=255)
-    last_name = models.CharField(max_length=255)
     team = models.ForeignKey(
         "Team",
         blank=True,
