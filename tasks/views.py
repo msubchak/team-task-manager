@@ -160,12 +160,6 @@ class WorkerTaskListView(LoginRequiredMixin, generic.ListView):
 class TeamListView(LoginRequiredMixin, generic.ListView):
     model = Team
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["complete_tasks"] = Task.objects.filter(is_complete=True)
-        context["in_progress"] = Task.objects.filter(is_complete=False)
-        return context
-
     def get_queryset(self):
         context = Team.objects.annotate(
             num_workers=Count("workers", distinct=True),
