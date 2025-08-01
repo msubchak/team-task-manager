@@ -4,6 +4,7 @@
     Employee Directory
     <a href="{% url 'tasks:worker-create' %}">Add Employee</a>
   </h1>
+  <p>Number of Employees: {{ num_workers }}</p>
   <form method="get" action="">
     {{ search_form }}
     <input type="submit">

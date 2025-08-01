@@ -85,6 +85,7 @@ class WorkerListView(LoginRequiredMixin, generic.ListView):
         context["search_form"] = WorkerSearchForm(
             initial={"username": username}
         )
+        context["num_workers"] = Worker.objects.count()
         return context
 
     def get_queryset(self):
