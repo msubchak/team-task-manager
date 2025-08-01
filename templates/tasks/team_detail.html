@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
   <h1>
-    About team:
+    About Team:
     <a href="{% url 'tasks:team-update' team.id %}">Update</a>
     <a href="{% url 'tasks:team-delete' team.id %}">Delete</a>
   </h1>
@@ -11,9 +11,8 @@
       <th>Full name</th>
       <th>Username</th>
       <th>Position</th>
-      <th>Username</th>
       <th>Email</th>
-      <th>Total task</th>
+      <th>Total Tasks</th>
     </tr>
     </thead>
     <tbody>
@@ -24,7 +23,6 @@
         </td>
         <td>{{ worker.username }}</td>
         <td>{{ worker.position }}</td>
-        <td>{{ worker.username }}</td>
         <td>{{ worker.email }}</td>
         <td>{{ worker.task_set.count }}</td>
       </tr>

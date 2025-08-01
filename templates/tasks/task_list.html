@@ -2,11 +2,11 @@
 {% block content %}
   <h1>Dashboard</h1>
   <br>
-  <h2>Key statistics</h2>
+  <h2>Key Statistics</h2>
   <table class="task-list-statistics">
     <thead>
     <tr>
-      <th>Name</th>
+      <th>Metric</th>
       <th>Amount</th>
     </tr>
     </thead>
@@ -37,7 +37,7 @@
   <h2>
     Tasks Table
     <a href="{% url 'tasks:task-create' %}">
-      Add task
+      Add Task
     </a>
   </h2>
   <form method="get" action="">
@@ -48,13 +48,12 @@
     <table class="task-list-table">
       <thead>
       <tr>
-        <th>Name task</th>
+        <th>Task Name</th>
         <th>Priority</th>
         <th>Assignees</th>
         <th>Deadline</th>
         <th>Status</th>
-        <th>Task type</th>
-        <th>Progress</th>
+        <th>Task Type</th>
       </tr>
       </thead>
       <tbody>
@@ -72,7 +71,6 @@
           <td>{{ task.deadline|date:"Y-m-d H:i" }}</td>
           <td>{% if task.is_complete %}Done{% else %}In Progress{% endif %}</td>
           <td>{{ task.task_type.name }}</td>
-          <td>{% if task.is_complete %}Done{% else %}In Progress{% endif %}</td>
         </tr>
       {% endfor %}
       </tbody>

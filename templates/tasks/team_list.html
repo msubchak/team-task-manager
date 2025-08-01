@@ -1,19 +1,19 @@
 {% extends "base.html" %}
 {% block content %}
   <h1>
-    Team list
-    <a href="{% url 'tasks:team-create' %}">Create new team</a>
+    Team List
+    <a href="{% url 'tasks:team-create' %}">Create New Team</a>
   </h1>
   {% if team_list %}
     <table class="team-list">
       <thead>
       <tr>
         <th>Team</th>
-        <th>Number of employees</th>
-        <th>Total projects</th>
+        <th>Number of Employees</th>
+        <th>Total Projects</th>
         <th>Completed Tasks</th>
         <th>Tasks In Progress</th>
-        <th>Total tasks</th>
+        <th>Total Tasks</th>
       </tr>
       </thead>
       <tbody>

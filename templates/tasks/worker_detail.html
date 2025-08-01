@@ -1,22 +1,22 @@
 {% extends "base.html" %}
 {% block content %}
   <h1>
-    About worker:
+    Worker Details:
     <a href="{% url 'tasks:worker-update' worker.id %}">Update</a>
     <a href="{% url 'tasks:worker-delete' worker.id %}">Delete</a>
-    <a href="{% url 'tasks:worker-tasks' worker.id %}">All task this employee</a>
+    <a href="{% url 'tasks:worker-tasks' worker.id %}">All Tasks for this Employee</a>
   </h1>
   <table class="worker-detail">
     <thead>
     <tr>
-      <th>Full name</th>
+      <th>Full Name</th>
       <th>Username</th>
       <th>Email</th>
       <th>Position</th>
       <th>Team</th>
       <th>Completed Tasks</th>
       <th>Tasks In Progress</th>
-      <th>Total task</th>
+      <th>Total Tasks</th>
     </tr>
     </thead>
     <tbody>

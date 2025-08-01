@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 {% block content %}
   <h1>
-    Project list
-    <a href="{% url 'tasks:project-create' %}">Create new project</a>
+    Project List
+    <a href="{% url 'tasks:project-create' %}">Create New Project</a>
   </h1>
   <form method="get" action="">
     {{ search_form }}
@@ -14,8 +14,8 @@
       <tr>
         <th>Name</th>
         <th>Description</th>
-        <th>Total tasks</th>
-        <th>Active teams</th>
+        <th>Total Tasks</th>
+        <th>Active Teams</th>
       </tr>
       </thead>
       <tbody>

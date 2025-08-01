@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
   <h1>
-    About project
+    About Project
     <a href="{% url 'tasks:project-update' project.id %}">Update</a>
     <a href="{% url 'tasks:project-delete' project.id %}">Delete</a>
     <a href="{% url 'tasks:project-tasks' project.id %}">View Tasks</a>
@@ -12,7 +12,7 @@
       <th>Name</th>
       <th>Description</th>
       <th>Teams Involved</th>
-      <th>Total tasks</th>
+      <th>Total Tasks</th>
     </tr>
     </thead>
     <tbody>
