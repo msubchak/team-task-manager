@@ -1,3 +1,4 @@
+from django.contrib.auth import get_user_model
 from django.test import TestCase
 
 from tasks.models import (
@@ -35,9 +36,24 @@ class ModelsTests(TestCase):
         username="test1234"
         password="test1234!"
         position=Position.objects.create(name="test")
-        worker = Worker.objects.create(
+        worker = get_user_model().objects.create_user(
             username=username,
             password=password,
             position=position,
         )
+        self.assertEqual(worker.username, username)
+        self.assertEqual(worker.position, position)
+        self.assertTrue(worker.check_password(password))
 
+    def test_create_worker_with_team(self):
+        username = "test1234"
+        password = "test1234!"
+        team = Team.objects.create(name="test")
+        worker = get_user_model().objects.create_user(
+            username=username,
+            password=password,
+            team=team,
+        )
+        self.assertEqual(worker.username, username)
+        self.assertEqual(worker.team, team)
+        self.assertTrue(worker.check_password(password))
