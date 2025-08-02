@@ -9,7 +9,7 @@ from tasks.models import (
     Project,
     Position,
     Team,
-    Worker, Task
+    Task,
 )
 
 

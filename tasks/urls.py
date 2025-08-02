@@ -21,7 +21,8 @@ from tasks.views import (
     ProjectDetailView,
     ProjectCreateView,
     ProjectUpdateView,
-    ProjectDeleteView, ProjectTaskListView,
+    ProjectDeleteView,
+    ProjectTaskListView,
 )
 
 app_name = "tasks"
