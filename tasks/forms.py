@@ -42,7 +42,7 @@ class WorkerTaskSearchForm(forms.Form):
         required=False,
         label="",
         widget=forms.TextInput(
-            attrs={"placeholder": "Search by name task"}
+            attrs={"placeholder": "Search by Task Name"}
         )
     )
 
