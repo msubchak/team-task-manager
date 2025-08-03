@@ -8,6 +8,18 @@ from tasks.forms import WorkerTaskSearchForm
 from tasks.models import Task, TaskType, Project, Worker, Position, Team
 
 
+class AuthenticatedTestCase(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.user = get_user_model().objects.create_user(
+            username="testuser",
+            password="testpassword3!"
+        )
+
+    def setUp(self):
+        self.client.force_login(self.user)
+
+
 class PublicIndexViewTest(TestCase):
     def setUp(self):
         self.urls = reverse("tasks:index")
@@ -17,13 +29,9 @@ class PublicIndexViewTest(TestCase):
         self.assertNotEqual(response.status_code, 200)
 
 
-class PrivateIndexViewTest(TestCase):
+class PrivateIndexViewTest(AuthenticatedTestCase):
     def setUp(self):
-        self.user = get_user_model().objects.create_user(
-            username="test",
-            password="test123412!",
-        )
-        self.client.force_login(self.user)
+        super().setUp()
         self.url = reverse("tasks:index")
 
     def test_status_code(self):
@@ -87,13 +95,9 @@ class PublicTaskListTest(TestCase):
         self.assertNotEqual(response.status_code, 200)
 
 
-class PrivateTaskListTest(TestCase):
+class PrivateTaskListTest(AuthenticatedTestCase):
     def setUp(self):
-        self.user = get_user_model().objects.create_user(
-            username="test",
-            password="test123412!",
-        )
-        self.client.force_login(self.user)
+        super().setUp()
         task_type = TaskType.objects.create(name="test")
         project = Project.objects.create(name="test")
         self.task = Task.objects.create(
@@ -144,13 +148,9 @@ class PrivateTaskListTest(TestCase):
             self.assertIn("test", task.name)
 
 
-class PrivateTaskDetailTest(TestCase):
+class PrivateTaskDetailTest(AuthenticatedTestCase):
     def setUp(self):
-        self.user = get_user_model().objects.create_user(
-            username="test",
-            password="test12312!"
-        )
-        self.client.force_login(self.user)
+        super().setUp()
         task_type = TaskType.objects.create(name="test")
         project = Project.objects.create(name="test")
         self.task = Task.objects.create(
@@ -175,13 +175,9 @@ class PrivateTaskDetailTest(TestCase):
         self.assertEqual(response.context["task"], self.task)
 
 
-class PrivateTaskCreateTest(TestCase):
+class PrivateTaskCreateTest(AuthenticatedTestCase):
     def setUp(self):
-        self.user = get_user_model().objects.create_user(
-            username="test",
-            password="test3123"
-        )
-        self.client.force_login(self.user)
+        super().setUp()
         self.url = reverse("tasks:task-create")
 
     def test_task_create_status_code(self):
@@ -193,12 +189,9 @@ class PrivateTaskCreateTest(TestCase):
         self.assertTemplateUsed(response, "tasks/task_form.html")
 
 
-class PrivateTaskUpdateTest(TestCase):
+class PrivateTaskUpdateTest(AuthenticatedTestCase):
     def setUp(self):
-        self.user = get_user_model().objects.create_user(
-            username="test",
-            password="test312312"
-        )
+        super().setUp()
         task_type = TaskType.objects.create(name="test")
         project = Project.objects.create(name="test")
         self.task = Task.objects.create(
@@ -208,7 +201,6 @@ class PrivateTaskUpdateTest(TestCase):
             task_type=task_type,
             project=project
         )
-        self.client.force_login(self.user)
         self.url = reverse("tasks:task-update", args=[self.task.id])
 
     def test_task_update_status_code(self):
@@ -220,12 +212,9 @@ class PrivateTaskUpdateTest(TestCase):
         self.assertTemplateUsed(response, "tasks/task_form.html")
 
 
-class PrivateTaskDeleteTest(TestCase):
+class PrivateTaskDeleteTest(AuthenticatedTestCase):
     def setUp(self):
-        self.user = get_user_model().objects.create_user(
-            username="test",
-            password="test12312"
-        )
+        super().setUp()
         task_type = TaskType.objects.create(name="test")
         project = Project.objects.create(name="test")
         self.task = Task.objects.create(
@@ -235,7 +224,6 @@ class PrivateTaskDeleteTest(TestCase):
             task_type=task_type,
             project=project
         )
-        self.client.force_login(self.user)
         self.url = reverse("tasks:task-delete", args=[self.task.id])
 
     def test_task_delete_status_code(self):
@@ -284,7 +272,7 @@ class PublicWorkerListTest(TestCase):
         self.assertNotEqual(response.status_code, 200)
 
 
-class PrivateWorkerListTest(TestCase):
+class PrivateWorkerListTest(AuthenticatedTestCase):
     def setUp(self):
         position = Position.objects.create(name="QA")
         team = Team.objects.create(name="team")
@@ -301,11 +289,7 @@ class PrivateWorkerListTest(TestCase):
             team=team,
         )
         self.url = reverse("tasks:worker-list")
-        self.user = get_user_model().objects.create_user(
-            username="test",
-            password="test123412!",
-        )
-        self.client.force_login(self.user)
+        super().setUp()
 
     def test_status_code(self):
         response = self.client.get(self.url)
@@ -336,13 +320,9 @@ class PrivateWorkerListTest(TestCase):
             self.assertIn("worker", worker.username)
 
 
-class PrivateWorkerDetailTest(TestCase):
+class PrivateWorkerDetailTest(AuthenticatedTestCase):
     def setUp(self):
-        self.user = get_user_model().objects.create_user(
-            username="test",
-            password="testpass123"
-        )
-        self.client.force_login(self.user)
+        super().setUp()
         position = Position.objects.create(name="Dev")
         team = Team.objects.create(name="Team A")
         task_type = TaskType.objects.create(name="Bug")
@@ -399,13 +379,9 @@ class PrivateWorkerDetailTest(TestCase):
         self.assertNotIn(self.task1, tasks)
 
 
-class PrivateWorkerCreateTest(TestCase):
+class PrivateWorkerCreateTest(AuthenticatedTestCase):
     def setUp(self):
-        self.user = get_user_model().objects.create_user(
-            username="test",
-            password="test3123"
-        )
-        self.client.force_login(self.user)
+        super().setUp()
         self.url = reverse("tasks:worker-create")
 
     def test_worker_create_status_code(self):
@@ -417,13 +393,9 @@ class PrivateWorkerCreateTest(TestCase):
         self.assertTemplateUsed(response, "tasks/worker_form.html")
 
 
-class PrivateWorkerUpdateTest(TestCase):
+class PrivateWorkerUpdateTest(AuthenticatedTestCase):
     def setUp(self):
-        self.user = get_user_model().objects.create_user(
-            username="test",
-            password="test312312"
-        )
-        self.client.force_login(self.user)
+        super().setUp()
         position = Position.objects.create(name="Dev")
         team = Team.objects.create(name="Team A")
         self.worker = Worker.objects.create(
@@ -442,13 +414,9 @@ class PrivateWorkerUpdateTest(TestCase):
         self.assertTemplateUsed(response, "tasks/worker_form.html")
 
 
-class PrivateWorkerDeleteTest(TestCase):
+class PrivateWorkerDeleteTest(AuthenticatedTestCase):
     def setUp(self):
-        self.user = get_user_model().objects.create_user(
-            username="test",
-            password="test12312"
-        )
-        self.client.force_login(self.user)
+        super().setUp()
         position = Position.objects.create(name="Dev")
         team = Team.objects.create(name="Team A")
         self.worker = Worker.objects.create(
@@ -486,13 +454,9 @@ class PublicWorkerTaskListTest(TestCase):
         self.assertNotEqual(response.status_code, 200)
 
 
-class PrivateWorkerTaskListTest(TestCase):
+class PrivateWorkerTaskListTest(AuthenticatedTestCase):
     def setUp(self):
-        self.user = get_user_model().objects.create_user(
-            username="test",
-            password="test123412!",
-        )
-        self.client.force_login(self.user)
+        super().setUp()
         position = Position.objects.create(name="QA")
         team = Team.objects.create(name="team")
         task_type = TaskType.objects.create(name="test")
@@ -560,14 +524,9 @@ class PublicTeamListTest(TestCase):
         self.assertNotEqual(response.status_code, 200)
 
 
-class PrivateTeamListTest(TestCase):
+class PrivateTeamListTest(AuthenticatedTestCase):
     def setUp(self):
-        self.user = get_user_model().objects.create_user(
-            username="test",
-            password="test1234!"
-        )
-        self.client.force_login(self.user)
-
+        super().setUp()
         Team.objects.create(name="test1")
         Team.objects.create(name="test")
         self.url = reverse("tasks:team-list")
@@ -586,13 +545,9 @@ class PrivateTeamListTest(TestCase):
         self.assertEqual(list(response.context["team_list"]), list(team_list))
 
 
-class PrivateTeamDetailTest(TestCase):
+class PrivateTeamDetailTest(AuthenticatedTestCase):
     def setUp(self):
-        self.user = get_user_model().objects.create_user(
-            username="test",
-            password="test1234!"
-        )
-        self.client.force_login(self.user)
+        super().setUp()
         team = Team.objects.create(name="test1")
         position = Position.objects.create(name="QA")
         task_type = TaskType.objects.create(name="test")
@@ -649,13 +604,9 @@ class PrivateTeamDetailTest(TestCase):
         self.assertIn("num_tasks", response.context)
 
 
-class PrivateTeamCreateTest(TestCase):
+class PrivateTeamCreateTest(AuthenticatedTestCase):
     def setUp(self):
-        self.user = get_user_model().objects.create_user(
-            username="test",
-            password="test3123"
-        )
-        self.client.force_login(self.user)
+        super().setUp()
         self.url = reverse("tasks:team-create")
 
     def test_team_create_status_code(self):
@@ -667,13 +618,9 @@ class PrivateTeamCreateTest(TestCase):
         self.assertTemplateUsed(response, "tasks/team_form.html")
 
 
-class PrivateTeamUpdateTest(TestCase):
+class PrivateTeamUpdateTest(AuthenticatedTestCase):
     def setUp(self):
-        self.user = get_user_model().objects.create_user(
-            username="test",
-            password="test312312"
-        )
-        self.client.force_login(self.user)
+        super().setUp()
         self.team = Team.objects.create(name="Team A")
         self.url = reverse("tasks:team-update", args=[self.team.id])
 
@@ -686,13 +633,9 @@ class PrivateTeamUpdateTest(TestCase):
         self.assertTemplateUsed(response, "tasks/team_form.html")
 
 
-class PrivateTeamDeleteTest(TestCase):
+class PrivateTeamDeleteTest(AuthenticatedTestCase):
     def setUp(self):
-        self.user = get_user_model().objects.create_user(
-            username="test",
-            password="test12312"
-        )
-        self.client.force_login(self.user)
+        super().setUp()
         self.team = Team.objects.create(name="Team A")
         self.url = reverse("tasks:team-delete", args=[self.team.id])
 
@@ -742,13 +685,9 @@ class PublicProjectListTest(TestCase):
         self.assertNotEqual(response.status_code, 200)
 
 
-class PrivateProjectListTest(TestCase):
+class PrivateProjectListTest(AuthenticatedTestCase):
     def setUp(self):
-        self.user = get_user_model().objects.create_user(
-            username="test",
-            password="test1231"
-        )
-        self.client.force_login(self.user)
+        super().setUp()
         team = Team.objects.create(name="team")
         project1 = Project.objects.create(
             name="test1",
@@ -778,13 +717,9 @@ class PrivateProjectListTest(TestCase):
             self.assertIn("test", project.name)
 
 
-class PrivateProjectCreateTest(TestCase):
+class PrivateProjectCreateTest(AuthenticatedTestCase):
     def setUp(self):
-        self.user = get_user_model().objects.create_user(
-            username="test",
-            password="test3123"
-        )
-        self.client.force_login(self.user)
+        super().setUp()
         self.url = reverse("tasks:project-create")
 
     def test_project_create_status_code(self):
@@ -796,13 +731,9 @@ class PrivateProjectCreateTest(TestCase):
         self.assertTemplateUsed(response, "tasks/project_form.html")
 
 
-class PrivateProjectUpdateTest(TestCase):
+class PrivateProjectUpdateTest(AuthenticatedTestCase):
     def setUp(self):
-        self.user = get_user_model().objects.create_user(
-            username="test",
-            password="test312312"
-        )
-        self.client.force_login(self.user)
+        super().setUp()
         self.project = Project.objects.create(name="test")
         self.url = reverse("tasks:project-update", args=[self.project.id])
 
@@ -815,13 +746,9 @@ class PrivateProjectUpdateTest(TestCase):
         self.assertTemplateUsed(response, "tasks/project_form.html")
 
 
-class PrivateProjectDeleteTest(TestCase):
+class PrivateProjectDeleteTest(AuthenticatedTestCase):
     def setUp(self):
-        self.user = get_user_model().objects.create_user(
-            username="test",
-            password="test12312"
-        )
-        self.client.force_login(self.user)
+        super().setUp()
         self.project = Project.objects.create(name="test")
         self.url = reverse("tasks:project-delete", args=[self.project.id])
 
@@ -852,13 +779,9 @@ class PublicProjectTaskListView(TestCase):
         self.assertNotEqual(response.status_code, 200)
 
 
-class PrivateProjectTaskListView(TestCase):
+class PrivateProjectTaskListView(AuthenticatedTestCase):
     def setUp(self):
-        self.user = get_user_model().objects.create_user(
-            username="test",
-            password="test123213!"
-        )
-        self.client.force_login(self.user)
+        super().setUp()
         team = Team.objects.create(name="team")
         project = Project.objects.create(
             name="test",
