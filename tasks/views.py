@@ -1,13 +1,10 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core.paginator import Paginator
 from django.db.models import Count, Q
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
-from django.template import context
 from django.urls import reverse_lazy
 from django.views import generic
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from tasks.forms import TaskForm, WorkerTaskSearchForm, WorkerSearchForm, WorkerCreateForm, ProjectCreateForm, \
     ProjectSearchForm, WorkerUpdateForm
