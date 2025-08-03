@@ -62,16 +62,18 @@ class TaskCreateView(LoginRequiredMixin, generic.CreateView):
     form_class = TaskForm
 
 
+class TaskUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = Task
+    form_class = TaskForm
+
+    def get_success_url(self):
+        return reverse_lazy("tasks:task-detail", args=[self.object.id])
+
+
 class TaskDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Task
     success_url = reverse_lazy("tasks:task-list")
     template_name = "tasks/task_delete.html"
-
-
-class TaskUpdateView(LoginRequiredMixin, generic.UpdateView):
-    model = Task
-    success_url = reverse_lazy("tasks:task-list")
-    form_class = TaskForm
 
 
 class WorkerListView(LoginRequiredMixin, generic.ListView):
@@ -137,8 +139,10 @@ class WorkerCreateView(LoginRequiredMixin, generic.CreateView):
 class WorkerUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Worker
     form_class = WorkerUpdateForm
-    success_url = reverse_lazy("tasks:worker-list")
     template_name = "tasks/worker_form.html"
+
+    def get_success_url(self):
+        return reverse_lazy("tasks:worker-detail", args=[self.object.id])
 
 
 class WorkerDeleteView(LoginRequiredMixin, generic.DeleteView):
@@ -228,8 +232,10 @@ class TeamCreateView(LoginRequiredMixin, generic.CreateView):
 class TeamUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Team
     fields = "__all__"
-    success_url = reverse_lazy("tasks:team-list")
     template_name = "tasks/team_form.html"
+
+    def get_success_url(self):
+        return reverse_lazy("tasks:team-detail", args=[self.object.id])
 
 
 class TeamDeleteView(LoginRequiredMixin, generic.DeleteView):
@@ -270,7 +276,9 @@ class ProjectCreateView(LoginRequiredMixin, generic.CreateView):
 class ProjectUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Project
     form_class = ProjectCreateForm
-    success_url = reverse_lazy("tasks:project-list")
+
+    def get_success_url(self):
+        return reverse_lazy("tasks:project-detail", args=[self.object.id])
 
 
 class ProjectDeleteView(LoginRequiredMixin, generic.DeleteView):
