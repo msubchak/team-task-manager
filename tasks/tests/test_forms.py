@@ -1,7 +1,14 @@
 from django.test import TestCase
 
-from tasks.forms import WorkerCreateForm, WorkerUpdateForm, WorkerTaskSearchForm, WorkerSearchForm, ProjectCreateForm, \
-    ProjectSearchForm, ProjectTaskSearchForm
+from tasks.forms import (
+    WorkerCreateForm,
+    WorkerUpdateForm,
+    WorkerTaskSearchForm,
+    WorkerSearchForm,
+    ProjectCreateForm,
+    ProjectSearchForm,
+    ProjectTaskSearchForm
+)
 from tasks.models import Position, Team
 
 
@@ -25,24 +32,60 @@ class WorkerCreateFormTest(BaseWorkerFormTest):
     def test_worker_form_is_valid(self):
         form = WorkerCreateForm(data=self.form_data)
         self.assertTrue(form.is_valid())
-        self.assertEqual(form.cleaned_data["first_name"], self.form_data["first_name"])
-        self.assertEqual(form.cleaned_data["last_name"], self.form_data["last_name"])
-        self.assertEqual(form.cleaned_data["username"], self.form_data["username"])
-        self.assertEqual(form.cleaned_data["email"], self.form_data["email"])
-        self.assertEqual(form.cleaned_data["position"], self.position)
-        self.assertEqual(form.cleaned_data["team"], self.team)
+        self.assertEqual(
+            form.cleaned_data["first_name"],
+            self.form_data["first_name"]
+        )
+        self.assertEqual(
+            form.cleaned_data["last_name"],
+            self.form_data["last_name"]
+        )
+        self.assertEqual(
+            form.cleaned_data["username"],
+            self.form_data["username"]
+        )
+        self.assertEqual(
+            form.cleaned_data["email"],
+            self.form_data["email"]
+        )
+        self.assertEqual(
+            form.cleaned_data["position"],
+            self.position
+        )
+        self.assertEqual(
+            form.cleaned_data["team"],
+            self.team
+        )
 
 
 class WorkerUpdateFormTest(BaseWorkerFormTest):
     def test_worker_form_is_valid(self):
         form = WorkerUpdateForm(data=self.form_data)
         self.assertTrue(form.is_valid())
-        self.assertEqual(form.cleaned_data["first_name"], self.form_data["first_name"])
-        self.assertEqual(form.cleaned_data["last_name"], self.form_data["last_name"])
-        self.assertEqual(form.cleaned_data["username"], self.form_data["username"])
-        self.assertEqual(form.cleaned_data["email"], self.form_data["email"])
-        self.assertEqual(form.cleaned_data["position"], self.position)
-        self.assertEqual(form.cleaned_data["team"], self.team)
+        self.assertEqual(
+            form.cleaned_data["first_name"],
+            self.form_data["first_name"]
+        )
+        self.assertEqual(
+            form.cleaned_data["last_name"],
+            self.form_data["last_name"]
+        )
+        self.assertEqual(
+            form.cleaned_data["username"],
+            self.form_data["username"]
+        )
+        self.assertEqual(
+            form.cleaned_data["email"],
+            self.form_data["email"]
+        )
+        self.assertEqual(
+            form.cleaned_data["position"],
+            self.position
+        )
+        self.assertEqual(
+            form.cleaned_data["team"],
+            self.team
+        )
 
 
 class WorkerTaskSearchFormTest(TestCase):
@@ -100,7 +143,10 @@ class ProjectCreateFormTest(TestCase):
         self.assertTrue(form.is_valid())
         self.assertEqual(form.cleaned_data["name"], "test1")
         self.assertEqual(form.cleaned_data["description"], "test")
-        self.assertEqual(list(form.cleaned_data["team"]), list([self.team1, self.team2]))
+        self.assertEqual(
+            list(form.cleaned_data["team"]),
+            list([self.team1, self.team2])
+        )
 
 
 class ProjectSearchFormTest(TestCase):

@@ -35,8 +35,8 @@ class ModelsTests(TestCase):
         self.assertEqual(str(team), "test")
 
     def test_create_worker_with_position(self):
-        username="test1234"
-        password="test1234!"
+        username = "test1234"
+        password = "test1234!"
         position=Position.objects.create(name="test")
         worker = get_user_model().objects.create_user(
             username=username,

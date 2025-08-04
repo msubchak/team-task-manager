@@ -332,7 +332,10 @@ class PrivateWorkerListTest(AuthenticatedTestCase):
     def test_worker_list_in_context(self):
         response = self.client.get(self.url)
         worker_list = Worker.objects.all()
-        self.assertEqual(list(response.context["worker_list"]), list(worker_list))
+        self.assertEqual(
+            list(response.context["worker_list"]),
+            list(worker_list)
+        )
 
     def test_num_workers_in_context(self):
         response = self.client.get(self.url)
@@ -356,7 +359,7 @@ class PrivateWorkerDetailTest(AuthenticatedTestCase):
         position = Position.objects.create(name="Dev")
         team = Team.objects.create(name="Team A")
         task_type = TaskType.objects.create(name="Bug")
-        project = Project.objects.create(name="Project X")
+        project = Project.objects.create(name="Project")
 
         self.worker = Worker.objects.create(
             username="worker1",
@@ -394,7 +397,10 @@ class PrivateWorkerDetailTest(AuthenticatedTestCase):
     def test_worker_detail_context_worker_search(self):
         response = self.client.get(self.url)
         self.assertEqual(response.context["worker"], self.worker)
-        self.assertIsInstance(response.context["search_form"], WorkerTaskSearchForm)
+        self.assertIsInstance(
+            response.context["search_form"],
+            WorkerTaskSearchForm
+        )
 
     def test_worker_detail_in_context(self):
         response = self.client.get(self.url)
@@ -455,7 +461,10 @@ class PublicWorkerTaskListTest(TestCase):
     def setUp(self):
         task_type = TaskType.objects.create(name="test")
         project = Project.objects.create(name="test")
-        worker = get_user_model().objects.create_user(username="testuser", password="testpass")
+        worker = get_user_model().objects.create_user(
+            username="testuser",
+            password="testpass"
+        )
         self.task = Task.objects.create(
             name="test",
             description="test",
@@ -707,7 +716,10 @@ class PrivateProjectListTest(AuthenticatedTestCase):
     def test_project_list_in_context(self):
         response = self.client.get(self.url)
         project_list = Project.objects.all()
-        self.assertEqual(list(response.context["project_list"]), list(project_list))
+        self.assertEqual(
+            list(response.context["project_list"]),
+            list(project_list)
+        )
 
     def test_queryset_filter_by_name(self):
         response = self.client.get(self.url, {"name": "test"})

@@ -16,7 +16,7 @@ class AdminSiteTests(TestCase):
         )
         self.client.force_login(self.admin_user)
         position = Position.objects.create(
-            name = "test"
+            name="test"
         )
         self.worker = get_user_model().objects.create_user(
             username="worker",

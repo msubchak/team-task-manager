@@ -52,7 +52,11 @@ class Project(models.Model):
 
 
 class Worker(AbstractUser):
-    position = models.ForeignKey("Position", on_delete=models.SET_NULL, null=True)
+    position = models.ForeignKey(
+        "Position",
+        on_delete=models.SET_NULL,
+        null=True
+    )
     team = models.ForeignKey(
         "Team",
         blank=True,

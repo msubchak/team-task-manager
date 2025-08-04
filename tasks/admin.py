@@ -12,7 +12,14 @@ admin.site.register(Team)
 
 @admin.register(Task)
 class TaskAdmin(admin.ModelAdmin):
-    list_display = ("name", "deadline", "is_complete", "priority", "task_type", "project",)
+    list_display = (
+        "name",
+        "deadline",
+        "is_complete",
+        "priority",
+        "task_type",
+        "project",
+    )
     list_filter = ("is_complete", "priority", "task_type", "deadline",)
 
 

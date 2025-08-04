@@ -6,8 +6,15 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic
 
-from tasks.forms import TaskForm, WorkerTaskSearchForm, WorkerSearchForm, WorkerCreateForm, ProjectCreateForm, \
-    ProjectSearchForm, WorkerUpdateForm
+from tasks.forms import (
+    TaskForm,
+    WorkerTaskSearchForm,
+    WorkerSearchForm,
+    WorkerCreateForm,
+    ProjectCreateForm,
+    ProjectSearchForm,
+    WorkerUpdateForm
+)
 from tasks.models import Worker, Task, Project, Team
 
 
@@ -32,7 +39,9 @@ class TaskListView(LoginRequiredMixin, generic.ListView):
         context = super(TaskListView, self).get_context_data(**kwargs)
         context["num_workers"] = Worker.objects.count()
         context["num_tasks"] = Task.objects.count()
-        context["num_in_progress"] = Task.objects.filter(is_complete=False).count()
+        context["num_in_progress"] = Task.objects.filter(
+            is_complete=False
+        ).count()
         context["num_done"] = Task.objects.filter(is_complete=True).count()
         context["num_projects"] = Project.objects.count()
         name = self.request.GET.get("name", "")
@@ -42,7 +51,10 @@ class TaskListView(LoginRequiredMixin, generic.ListView):
         return context
 
     def get_queryset(self):
-        queryset = Task.objects.select_related("task_type").prefetch_related("assignees")
+        queryset = (
+            Task.objects.select_related("task_type")
+            .prefetch_related("assignees")
+        )
         form = WorkerTaskSearchForm(self.request.GET)
         if form.is_valid():
             return queryset.filter(name__icontains=form.cleaned_data["name"])
@@ -91,7 +103,9 @@ class WorkerListView(LoginRequiredMixin, generic.ListView):
         queryset = Worker.objects.select_related("position")
         form = WorkerSearchForm(self.request.GET)
         if form.is_valid():
-            return queryset.filter(username__icontains=form.cleaned_data["username"])
+            return queryset.filter(
+                username__icontains=form.cleaned_data["username"]
+            )
         return queryset
 
 
@@ -215,7 +229,8 @@ class TeamDetailView(LoginRequiredMixin, generic.DetailView):
         context["assigned_tasks"] = Task.objects.filter(
             project__team=team_id, assignees__team=team_id,
         ).distinct().count()
-        context["num_tasks"] = Task.objects.filter(project__team=team_id).distinct().count()
+        context["num_tasks"] = Task.objects.filter(
+            project__team=team_id).distinct().count()
         return context
 
 
@@ -256,7 +271,9 @@ class ProjectListView(LoginRequiredMixin, generic.ListView):
     def get_queryset(self):
         form = ProjectSearchForm(self.request.GET)
         if form.is_valid():
-            return Project.objects.filter(name__icontains=form.cleaned_data["name"])
+            return Project.objects.filter(
+                name__icontains=form.cleaned_data["name"]
+            )
         return self.queryset
 
 
