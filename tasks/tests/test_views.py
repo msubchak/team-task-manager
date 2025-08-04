@@ -11,6 +11,7 @@ from tasks.models import Task, TaskType, Project, Worker, Position, Team
 class AuthenticatedTestCase(TestCase):
     @classmethod
     def setUpTestData(cls):
+        super().setUpTestData()
         cls.user = get_user_model().objects.create_user(
             username="testuser",
             password="testpassword3!"
@@ -18,6 +19,31 @@ class AuthenticatedTestCase(TestCase):
 
     def setUp(self):
         self.client.force_login(self.user)
+
+
+class TaskSetUpMixin:
+    @classmethod
+    def setUpTestData(cls):
+        super().setUpTestData()
+        cls.task_type = TaskType.objects.create(name="test")
+        cls.project = Project.objects.create(name="test")
+        cls.task = Task.objects.create(
+            name="test",
+            description="test",
+            deadline=datetime.now(),
+            task_type=cls.task_type,
+            project=cls.project
+        )
+
+
+class PublicTaskTest(TaskSetUpMixin, TestCase):
+    pass
+
+
+class PrivateTaskTest(TaskSetUpMixin, AuthenticatedTestCase):
+    @classmethod
+    def setUpTestData(cls):
+        super().setUpTestData()
 
 
 class PublicIndexViewTest(TestCase):
@@ -50,7 +76,6 @@ class PrivateIndexViewTest(AuthenticatedTestCase):
             )
             project.team.set([team])
         self.url = reverse("tasks:index")
-
 
     def test_status_code(self):
         response = self.client.get(self.url)
@@ -85,17 +110,9 @@ class PrivateIndexViewTest(AuthenticatedTestCase):
         self.assertEqual(response_projects, last_projects)
 
 
-class PublicTaskListTest(TestCase):
+class PublicTaskListTest(PublicTaskTest):
     def setUp(self):
-        task_type = TaskType.objects.create(name="test")
-        project = Project.objects.create(name="test")
-        self.task = Task.objects.create(
-            name="test",
-            description="test",
-            deadline=datetime.now(),
-            task_type=task_type,
-            project=project
-        )
+        super().setUp()
         self.urls = {
             "list": reverse("tasks:task-list"),
             "create": reverse("tasks:task-create"),
@@ -125,18 +142,9 @@ class PublicTaskListTest(TestCase):
         self.assertNotEqual(response.status_code, 200)
 
 
-class PrivateTaskListTest(AuthenticatedTestCase):
+class PrivateTaskListTest(PrivateTaskTest):
     def setUp(self):
         super().setUp()
-        task_type = TaskType.objects.create(name="test")
-        project = Project.objects.create(name="test")
-        self.task = Task.objects.create(
-            name="test",
-            description="test",
-            deadline=datetime.now(),
-            task_type=task_type,
-            project=project
-        )
         self.url = reverse("tasks:task-list")
 
     def test_status_code(self):
@@ -178,18 +186,9 @@ class PrivateTaskListTest(AuthenticatedTestCase):
             self.assertIn("test", task.name)
 
 
-class PrivateTaskDetailTest(AuthenticatedTestCase):
+class PrivateTaskDetailTest(PrivateTaskTest):
     def setUp(self):
         super().setUp()
-        task_type = TaskType.objects.create(name="test")
-        project = Project.objects.create(name="test")
-        self.task = Task.objects.create(
-            name="test",
-            description="test",
-            deadline=datetime.now(),
-            task_type=task_type,
-            project=project
-        )
         self.url = reverse("tasks:task-detail", args=[self.task.id])
 
     def test_task_detail_status_code(self):
@@ -219,18 +218,9 @@ class PrivateTaskCreateTest(AuthenticatedTestCase):
         self.assertTemplateUsed(response, "tasks/task_form.html")
 
 
-class PrivateTaskUpdateTest(AuthenticatedTestCase):
+class PrivateTaskUpdateTest(PrivateTaskTest):
     def setUp(self):
         super().setUp()
-        task_type = TaskType.objects.create(name="test")
-        project = Project.objects.create(name="test")
-        self.task = Task.objects.create(
-            name="test",
-            description="test",
-            deadline=datetime.now(),
-            task_type=task_type,
-            project=project
-        )
         self.url = reverse("tasks:task-update", args=[self.task.id])
 
     def test_task_update_status_code(self):
@@ -242,18 +232,9 @@ class PrivateTaskUpdateTest(AuthenticatedTestCase):
         self.assertTemplateUsed(response, "tasks/task_form.html")
 
 
-class PrivateTaskDeleteTest(AuthenticatedTestCase):
+class PrivateTaskDeleteTest(PrivateTaskTest):
     def setUp(self):
         super().setUp()
-        task_type = TaskType.objects.create(name="test")
-        project = Project.objects.create(name="test")
-        self.task = Task.objects.create(
-            name="test",
-            description="test",
-            deadline=datetime.now(),
-            task_type=task_type,
-            project=project
-        )
         self.url = reverse("tasks:task-delete", args=[self.task.id])
 
     def test_task_delete_status_code(self):
@@ -484,20 +465,11 @@ class PublicWorkerTaskListTest(TestCase):
         self.assertNotEqual(response.status_code, 200)
 
 
-class PrivateWorkerTaskListTest(AuthenticatedTestCase):
+class PrivateWorkerTaskListTest(PrivateTaskTest):
     def setUp(self):
         super().setUp()
         position = Position.objects.create(name="QA")
         team = Team.objects.create(name="team")
-        task_type = TaskType.objects.create(name="test")
-        project = Project.objects.create(name="test")
-        self.task = Task.objects.create(
-            name="test",
-            description="test",
-            deadline=datetime.now(),
-            task_type=task_type,
-            project=project
-        )
         self.worker = Worker.objects.create(
             username="worker1",
             position=position,
@@ -791,18 +763,9 @@ class PrivateProjectDeleteTest(AuthenticatedTestCase):
         self.assertTemplateUsed(response, "tasks/project_delete.html")
 
 
-class PublicProjectTaskListView(TestCase):
+class PublicProjectTaskListView(PublicTaskTest):
     def setUp(self):
-        task_type = TaskType.objects.create(name="test")
-        project = Project.objects.create(name="test")
-        self.task = Task.objects.create(
-            name="test",
-            description="test",
-            deadline=datetime.now(),
-            task_type=task_type,
-            project=project
-        )
-        self.urls = reverse("tasks:project-tasks", args=[project.id])
+        self.urls = reverse("tasks:project-tasks", args=[self.project.id])
 
     def test_login_required_project_tasks(self):
         response = self.client.get(self.urls)
