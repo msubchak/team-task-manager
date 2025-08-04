@@ -32,7 +32,25 @@ class PublicIndexViewTest(TestCase):
 class PrivateIndexViewTest(AuthenticatedTestCase):
     def setUp(self):
         super().setUp()
+        team = Team.objects.create()
+        task_type = TaskType.objects.create(name="test")
+        project = Project.objects.create(name="test")
+        for i in range(6):
+            self.task = Task.objects.create(
+                name="test",
+                description="test",
+                deadline=datetime.now(),
+                task_type=task_type,
+                project=project,
+            )
+        for i in range(5):
+            self.project = Project.objects.create(
+                name="test",
+                description="test",
+            )
+            project.team.set([team])
         self.url = reverse("tasks:index")
+
 
     def test_status_code(self):
         response = self.client.get(self.url)
@@ -53,6 +71,18 @@ class PrivateIndexViewTest(AuthenticatedTestCase):
     def test_context_index_projects(self):
         response = self.client.get(self.url)
         self.assertIn("projects", response.context)
+
+    def test_shows_last_five_tasks(self):
+        response = self.client.get(self.url)
+        last_tasks = list(Task.objects.order_by("-id")[:5])
+        response_tasks = list(response.context["tasks"])
+        self.assertEqual(response_tasks, last_tasks)
+
+    def test_shows_last_3_project(self):
+        response = self.client.get(self.url)
+        last_projects = list(Project.objects.order_by("-id")[:3])
+        response_projects = list(response.context["projects"])
+        self.assertEqual(response_projects, last_projects)
 
 
 class PublicTaskListTest(TestCase):
