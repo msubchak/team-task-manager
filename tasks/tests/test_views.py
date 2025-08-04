@@ -36,11 +36,35 @@ class TaskSetUpMixin:
         )
 
 
+class WorkerSetUpMixin:
+    @classmethod
+    def setUpTestData(cls):
+        super().setUpTestData()
+        cls.position = Position.objects.create(name="QA")
+        cls.team = Team.objects.create(name="team")
+        cls.worker = Worker.objects.create(
+            username="worker1",
+            position=cls.position,
+            team=cls.team,
+            email="test@example.com"
+        )
+
+
 class PublicTaskTest(TaskSetUpMixin, TestCase):
     pass
 
 
 class PrivateTaskTest(TaskSetUpMixin, AuthenticatedTestCase):
+    @classmethod
+    def setUpTestData(cls):
+        super().setUpTestData()
+
+
+class PublicWorkerTest(WorkerSetUpMixin, TestCase):
+    pass
+
+
+class PrivateWorkerTest(WorkerSetUpMixin, AuthenticatedTestCase):
     @classmethod
     def setUpTestData(cls):
         super().setUpTestData()
@@ -246,14 +270,9 @@ class PrivateTaskDeleteTest(PrivateTaskTest):
         self.assertTemplateUsed(response, "tasks/task_delete.html")
 
 
-class PublicWorkerListTest(TestCase):
+class PublicWorkerListTest(PublicWorkerTest):
     def setUp(self):
-        position = Position.objects.create(name="QA")
-        team = Team.objects.create(name="team")
-        self.worker = Worker.objects.create(
-            position=position,
-            team=team,
-        )
+        super().setUp()
         self.urls = {
             "list": reverse("tasks:worker-list"),
             "create": reverse("tasks:worker-create"),
@@ -404,16 +423,9 @@ class PrivateWorkerCreateTest(AuthenticatedTestCase):
         self.assertTemplateUsed(response, "tasks/worker_form.html")
 
 
-class PrivateWorkerUpdateTest(AuthenticatedTestCase):
+class PrivateWorkerUpdateTest(PrivateWorkerTest):
     def setUp(self):
         super().setUp()
-        position = Position.objects.create(name="Dev")
-        team = Team.objects.create(name="Team A")
-        self.worker = Worker.objects.create(
-            position=position,
-            team=team,
-            email="dsadd@gmail.com"
-        )
         self.url = reverse("tasks:worker-update", args=[self.worker.id])
 
     def test_worker_update_status_code(self):
@@ -425,16 +437,9 @@ class PrivateWorkerUpdateTest(AuthenticatedTestCase):
         self.assertTemplateUsed(response, "tasks/worker_form.html")
 
 
-class PrivateWorkerDeleteTest(AuthenticatedTestCase):
+class PrivateWorkerDeleteTest(PrivateWorkerTest):
     def setUp(self):
         super().setUp()
-        position = Position.objects.create(name="Dev")
-        team = Team.objects.create(name="Team A")
-        self.worker = Worker.objects.create(
-            position=position,
-            team=team,
-            email="dsadd@gmail.com"
-        )
         self.url = reverse("tasks:worker-delete", args=[self.worker.id])
 
     def test_worker_delete_status_code(self):
@@ -547,11 +552,9 @@ class PrivateTeamListTest(AuthenticatedTestCase):
         self.assertEqual(list(response.context["team_list"]), list(team_list))
 
 
-class PrivateTeamDetailTest(AuthenticatedTestCase):
+class PrivateTeamDetailTest(PrivateWorkerTest):
     def setUp(self):
         super().setUp()
-        team = Team.objects.create(name="test1")
-        position = Position.objects.create(name="QA")
         task_type = TaskType.objects.create(name="test")
         project = Project.objects.create(name="test")
         self.task = Task.objects.create(
@@ -561,13 +564,7 @@ class PrivateTeamDetailTest(AuthenticatedTestCase):
             task_type=task_type,
             project=project
         )
-        self.worker = Worker.objects.create(
-            username="worker1",
-            team=team,
-            position=position,
-            email="email@gmail.com"
-        )
-        self.url = reverse("tasks:team-detail", args=[team.id])
+        self.url = reverse("tasks:team-detail", args=[self.team.id])
 
     def test_status_code(self):
         response = self.client.get(self.url)
