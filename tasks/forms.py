@@ -72,17 +72,6 @@ class WorkerSearchForm(forms.Form):
     )
 
 
-class WorkerTaskSearchForm(forms.Form):
-    name = forms.CharField(
-        max_length=255,
-        required=False,
-        label="",
-        widget=forms.TextInput(
-            attrs={"placeholder": "Search by Task Name"}
-        )
-    )
-
-
 class ProjectCreateForm(forms.ModelForm):
     team = forms.ModelMultipleChoiceField(
         queryset=Team.objects.all(),
