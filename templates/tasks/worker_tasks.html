@@ -1,12 +1,14 @@
 {% extends "base.html" %}
 {% block content %}
   <h1>Employee Tasks</h1>
-  <form method="get" action="">
-    {{ search_form }}
-    <input type="submit">
+  <form method="get" action="" class="mb-4">
+    <div class="d-flex align-items-center">
+      {{ search_form }}
+      <input type="submit" class="btn btn-primary btn-sm ms-2">
+    </div>
   </form>
   {% if tasks %}
-    <table class="task-detail">
+    <table class="table table-striped table-bordered">
       <thead>
       <tr>
         <th>Name Task</th>
@@ -22,17 +24,23 @@
       <tbody>
       {% for task in tasks %}
         <tr>
-          <td>{{ task.name }}</td>
+          <td>
+            <a href="{% url 'tasks:task-detail' task.id %}" class="worker-tasks">{{ task.name }}</a>
+          </td>
           <td>{{ task.description }}</td>
           <td>{{ task.deadline }}</td>
           <td>
-            {% if task.is_complete %}Done{% else %}In Progress{% endif %}
+            {% if task.is_complete %}
+              <span class="badge bg-success">Done</span>
+            {% else %}
+              <span class="badge bg-warning text-dark">In Progress</span>
+            {% endif %}
           </td>
-          <td>{{ task.priority }}</td>
+          <td>{{ task.get_priority_display }}</td>
           <td>{{ task.task_type }}</td>
           <td>
-            {% for tags in task.tags.all %}
-              {{ tags.name }}{% if not forloop.last %},{% endif %}
+            {% for tag in task.tags.all %}
+              {{ tag.name }}{% if not forloop.last %}, {% endif %}
             {% endfor %}
           </td>
           <td>{{ task.project.name }}</td>

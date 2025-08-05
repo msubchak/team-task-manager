@@ -2,16 +2,18 @@
 {% block content %}
   <h1>
     Employee Directory
-    <a href="{% url 'tasks:worker-create' %}">Add Employee</a>
+    <a href="{% url 'tasks:worker-create' %}" class="btn btn-sm btn-outline-primary ms-3">Add Employee</a>
   </h1>
   <p>Number of Employees: {{ num_workers }}</p>
-  <form method="get" action="">
-    {{ search_form }}
-    <input type="submit">
-  </form>
+   <form method="get" action="" class="mb-4">
+      <div class="d-flex align-items-center">
+        {{ search_form }}
+        <input type="submit" class="btn btn-primary btn-sm ms-2">
+      </div>
+    </form>
 
   {% if worker_list %}
-    <table class="worker-list">
+    <table class="table table-striped table-bordered">
       <thead>
       <tr>
         <th>Username</th>
@@ -27,7 +29,7 @@
       {% for worker in worker_list %}
         <tr>
           <td>
-            <a href="{% url 'tasks:worker-detail' worker.id %}">
+            <a href="{% url 'tasks:worker-detail' worker.id %}" class="worker-detail-list">
               {{ worker.username }}
             </a>
           </td>

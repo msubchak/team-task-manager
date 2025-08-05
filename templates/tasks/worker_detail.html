@@ -2,11 +2,11 @@
 {% block content %}
   <h1>
     Worker Details:
-    <a href="{% url 'tasks:worker-update' worker.id %}">Update</a>
-    <a href="{% url 'tasks:worker-delete' worker.id %}">Delete</a>
-    <a href="{% url 'tasks:worker-tasks' worker.id %}">All Tasks for this Employee</a>
+    <a href="{% url 'tasks:worker-update' worker.id %}" class="btn btn-sm btn-outline-primary ms-3">Update</a>
+    <a href="{% url 'tasks:worker-delete' worker.id %}" class="btn btn-sm btn-outline-danger ms-2">Delete</a>
+    <a href="{% url 'tasks:worker-tasks' worker.id %}" class="btn btn-sm btn-outline-secondary ms-2">All Tasks for this Employee</a>
   </h1>
-  <table class="worker-detail">
+  <table class="table table-striped table-bordered mt-3">
     <thead>
     <tr>
       <th>Full Name</th>
