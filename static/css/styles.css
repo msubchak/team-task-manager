@@ -1,38 +1,96 @@
-.index-table,
-.task-detail,
-.task-list-statistics,
-.task-list-table,
-.worker-detail,
-.worker-list,
-.team-list,
-.team-detail,
-.worker-tasks,
-.project-table,
-.project-detail,
-.project-task-detail {
-    border-collapse: collapse;
-    border: 1px solid black;
-    padding: 8px;
-}
-
-.index-table td, .index-table th,
-.task-detail td, .task-detail th,
-.task-list-statistics td, .task-list-statistics th,
-.task-list-table td, .task-list-table th,
-.worker-detail td, .worker-detail th,
-.worker-list td, .worker-list th,
-.team-list td, .team-list th,
-.team-detail td, .team-detail th,
-.worker-tasks td, .worker-tasks th,
-.project-table td, .project-table th,
-.project-detail td, .project-detail th,
-.project-task-detail td, .project-task-detail th {
-    padding: 8px;
-    border: 1px solid black;
-}
-
 .sidebar {
     margin-left: 0;
     padding-left: 0;
     list-style-type: none;
+}
+
+.project-detail-index {
+    color: #0d6efd;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.task-detail-index {
+    color: #0d6efd;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.task-detail-list {
+    color: #0d6efd;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.team-detail-list {
+    color: #0d6efd;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.worker-detail-list {
+    color: #0d6efd;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.tasks-detail-list {
+    color: #0d6efd;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.worker-tasks {
+    color: #0d6efd;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.project-tasks {
+    color: #0d6efd;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.team-detail-list {
+    color: #0d6efd;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.project-detail-index:hover,
+.task-detail-index:hover,
+.task-detail-list:hover,
+.team-detail-list:hover,
+.worker-detail-list:hover,
+.tasks-detail-list:hover,
+.worker-tasks:hover,
+.project-tasks:hover,
+.team-detail-list:hover {
+    color: #084298;
+    text-decoration: underline;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.main-content {
+    flex: 1;
 }
