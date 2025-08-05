@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>{% block title %}My Volt Dashboard{% endblock %}</title>
+  <title>{% block title %}{% endblock %}</title>
   <link href="{% static 'vendor/bootstrap/dist/css/bootstrap.min.css' %}" rel="stylesheet"/>
   <link href="{% static 'css/volt.css' %}" rel="stylesheet"/>
   <link href="{% static 'css/styles.css' %}" rel="stylesheet"/>
@@ -34,7 +34,7 @@
           <li class="nav-item">
             <form method="post" action="{% url 'logout' %}" class="d-inline">
               {% csrf_token %}
-              <button type="submit" class="btn btn-link nav-link">Logout</button>
+              <button type="submit" class="btn btn-sm btn-outline-danger ms-2">Logout</button>
             </form>
           </li>
         {% else %}
