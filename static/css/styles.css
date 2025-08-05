@@ -4,78 +4,14 @@
     list-style-type: none;
 }
 
-.project-detail-index {
+.link-primary-custom {
     color: #0d6efd;
     text-decoration: none;
     font-weight: 600;
     transition: color 0.3s ease;
 }
 
-.task-detail-index {
-    color: #0d6efd;
-    text-decoration: none;
-    font-weight: 600;
-    transition: color 0.3s ease;
-}
-
-.task-detail-list {
-    color: #0d6efd;
-    text-decoration: none;
-    font-weight: 600;
-    transition: color 0.3s ease;
-}
-
-.team-detail-list {
-    color: #0d6efd;
-    text-decoration: none;
-    font-weight: 600;
-    transition: color 0.3s ease;
-}
-
-.worker-detail-list {
-    color: #0d6efd;
-    text-decoration: none;
-    font-weight: 600;
-    transition: color 0.3s ease;
-}
-
-.tasks-detail-list {
-    color: #0d6efd;
-    text-decoration: none;
-    font-weight: 600;
-    transition: color 0.3s ease;
-}
-
-.worker-tasks {
-    color: #0d6efd;
-    text-decoration: none;
-    font-weight: 600;
-    transition: color 0.3s ease;
-}
-
-.project-tasks {
-    color: #0d6efd;
-    text-decoration: none;
-    font-weight: 600;
-    transition: color 0.3s ease;
-}
-
-.team-detail-list {
-    color: #0d6efd;
-    text-decoration: none;
-    font-weight: 600;
-    transition: color 0.3s ease;
-}
-
-.project-detail-index:hover,
-.task-detail-index:hover,
-.task-detail-list:hover,
-.team-detail-list:hover,
-.worker-detail-list:hover,
-.tasks-detail-list:hover,
-.worker-tasks:hover,
-.project-tasks:hover,
-.team-detail-list:hover {
+.link-primary-custom:hover {
     color: #084298;
     text-decoration: underline;
 }
@@ -93,4 +29,39 @@ body {
 
 .main-content {
     flex: 1;
+}
+
+.icon.icon-shape {
+    width: 60px;
+    height: 60px;
+}
+
+.icon-shape img {
+    width: 40px;
+    height: 40px;
+}
+
+.icon-teams {
+    margin-top: 4px;
+}
+
+.icon-projects {
+    margin-top: 2px;
+}
+
+.icon-tasks {
+    margin-top: -2px;
+}
+
+.icon-employees {
+    margin-top: 3px;
+    margin-left: 5px;
+}
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+.login-container {
+    max-width: 400px;
 }

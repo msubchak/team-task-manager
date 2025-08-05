@@ -56,7 +56,7 @@
       {% for worker in workers %}
         <tr>
           <td>
-            <a href="{% url 'tasks:worker-detail' worker.id %}" class="team-detail-list">
+            <a href="{% url 'tasks:worker-detail' worker.id %}" class="link-primary-custom">
               {{ worker.username }}
             </a>
           </td>

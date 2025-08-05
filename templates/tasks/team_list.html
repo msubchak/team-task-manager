@@ -20,7 +20,7 @@
       {% for team in team_list %}
         <tr>
           <td>
-            <a href="{% url 'tasks:team-detail' team.id %}" class="team-detail-list">{{ team.name }}</a>
+            <a href="{% url 'tasks:team-detail' team.id %}" class="link-primary-custom">{{ team.name }}</a>
           </td>
           <td>{{ team.num_workers }}</td>
           <td>{{ team.num_projects }}</td>

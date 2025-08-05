@@ -44,19 +44,15 @@
     </div>
   </div>
 </nav>
-
 <div class="main-content">
   {% block content %}{% endblock %}
 </div>
-
 {% block pagination %}
   {% include "includes/pagination.html" %}
 {% endblock %}
-
 {% block footer %}
   {% include 'includes/footer.html' %}
 {% endblock %}
-
 <script src="{% static 'vendor/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
 <script src="{% static 'assets/js/volt.js' %}"></script>
 {% block extra_js %}{% endblock %}

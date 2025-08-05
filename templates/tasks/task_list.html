@@ -58,7 +58,7 @@
         <tbody>
         {% for task in task_list %}
           <tr>
-            <td><a href="{% url 'tasks:task-detail' task.id %}" class="task-detail-list">{{ task.name }}</a></td>
+            <td><a href="{% url 'tasks:task-detail' task.id %}" class="link-primary-custom">{{ task.name }}</a></td>
             <td>{{ task.get_priority_display }}</td>
             <td>
               {% for assignee in task.assignees.all %}

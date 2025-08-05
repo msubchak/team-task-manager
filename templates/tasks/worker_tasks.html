@@ -25,7 +25,7 @@
       {% for task in tasks %}
         <tr>
           <td>
-            <a href="{% url 'tasks:task-detail' task.id %}" class="worker-tasks">{{ task.name }}</a>
+            <a href="{% url 'tasks:task-detail' task.id %}" class="link-primary-custom">{{ task.name }}</a>
           </td>
           <td>{{ task.description }}</td>
           <td>{{ task.deadline }}</td>

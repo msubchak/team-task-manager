@@ -29,7 +29,7 @@
       {% for worker in worker_list %}
         <tr>
           <td>
-            <a href="{% url 'tasks:worker-detail' worker.id %}" class="worker-detail-list">
+            <a href="{% url 'tasks:worker-detail' worker.id %}" class="link-primary-custom">
               {{ worker.username }}
             </a>
           </td>

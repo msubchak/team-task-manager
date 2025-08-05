@@ -24,7 +24,7 @@
       {% for project in project_list %}
         <tr>
           <td>
-            <a href="{% url 'tasks:project-detail' project.id %}" class="tasks-detail-list">{{ project.name }}</a>
+            <a href="{% url 'tasks:project-detail' project.id %}" class="link-primary-custom">{{ project.name }}</a>
           </td>
           <td>{{ project.description }}</td>
           <td>{{ project.tasks.count }}</td>
