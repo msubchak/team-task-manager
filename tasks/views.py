@@ -20,6 +20,9 @@ from tasks.models import Worker, Task, Project, Team
 
 @login_required
 def index(request: HttpRequest) -> HttpResponse:
+    teams_count = Team.objects.count()
+    projects_count = Project.objects.count()
+    tasks_count = Task.objects.count()
     num_worker = Worker.objects.all().count()
     tasks = Task.objects.all().order_by('-id')[:5]
     projects = Project.objects.all().order_by('-id')[:3]
@@ -27,6 +30,9 @@ def index(request: HttpRequest) -> HttpResponse:
         "num_worker": num_worker,
         "tasks": tasks,
         "projects": projects,
+        "teams_count": teams_count,
+        "projects_count": projects_count,
+        "tasks_count": tasks_count,
     }
     return render(request, "tasks/index.html", context=context)
 
@@ -166,7 +172,7 @@ class WorkerTaskListView(LoginRequiredMixin, generic.ListView):
     model = Task
     template_name = "tasks/worker_tasks.html"
     context_object_name = "tasks"
-    paginate_by = 5
+    paginate_by = 8
 
     def get_context_data(self, **kwargs):
         context = super(WorkerTaskListView, self).get_context_data(**kwargs)
