@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>
+    Team List
+    <a href="{% url 'tasks:team-create' %}" class="btn btn-sm btn-outline-primary ms-3">Create New Team</a>
+  </h1>
+  {% if team_list %}
+    <table class="table table-striped table-bordered">
+      <thead>
+      <tr>
+        <th>Team</th>
+        <th>Number of Employees</th>
+        <th>Total Projects</th>
+        <th>Completed Tasks</th>
+        <th>Tasks In Progress</th>
+        <th>Total Tasks</th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for team in team_list %}
+        <tr>
+          <td>
+            <a href="{% url 'tasks:team-detail' team.id %}" class="link-primary-custom">{{ team.name }}</a>
+          </td>
+          <td>{{ team.num_workers }}</td>
+          <td>{{ team.num_projects }}</td>
+          <td>{{ team.complete_tasks }}</td>
+          <td>{{ team.in_progress_tasks }}</td>
+          <td>{{ team.num_tasks }}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <h2>No team found</h2>
+  {% endif %}
+{% endblock %}

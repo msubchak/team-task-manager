@@ -1,0 +1,106 @@
+from django.contrib.auth import get_user_model
+from django import forms
+from django.contrib.auth.forms import UserCreationForm
+
+from tasks.models import Task, Worker, Team, Project, Tag
+
+
+class TaskForm(forms.ModelForm):
+    assignees = forms.ModelMultipleChoiceField(
+        queryset=get_user_model().objects.all(),
+        widget=forms.CheckboxSelectMultiple,
+        required=False,
+    )
+    deadline = forms.DateTimeField(
+        widget=forms.DateTimeInput(attrs={"type": "datetime-local"})
+    )
+    tags = forms.ModelMultipleChoiceField(
+        queryset=Tag.objects.all(),
+        widget=forms.CheckboxSelectMultiple,
+    )
+
+    class Meta:
+        model = Task
+        fields = "__all__"
+
+
+class WorkerCreateForm(UserCreationForm):
+    class Meta:
+        model = Worker
+        fields = UserCreationForm.Meta.fields + (
+            "first_name",
+            "last_name",
+            "username",
+            "email",
+            "position",
+            "team",
+        )
+
+
+class WorkerUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Worker
+        fields = (
+            "first_name",
+            "last_name",
+            "username",
+            "email",
+            "position",
+            "team",
+        )
+
+
+class WorkerTaskSearchForm(forms.Form):
+    name = forms.CharField(
+        max_length=255,
+        required=False,
+        label="",
+        widget=forms.TextInput(
+            attrs={"placeholder": "Search by Task Name"}
+        )
+    )
+
+
+class WorkerSearchForm(forms.Form):
+    username = forms.CharField(
+        max_length=255,
+        required=False,
+        label="",
+        widget=forms.TextInput(
+            attrs={"placeholder": " Search by Username"}
+        )
+    )
+
+
+class ProjectCreateForm(forms.ModelForm):
+    team = forms.ModelMultipleChoiceField(
+        queryset=Team.objects.all(),
+        widget=forms.CheckboxSelectMultiple,
+        required=False,
+    )
+
+    class Meta:
+        model = Project
+        fields = ("name", "description", "team",)
+
+
+class ProjectSearchForm(forms.Form):
+    name = forms.CharField(
+        max_length=255,
+        required=False,
+        label="",
+        widget=forms.TextInput(
+            attrs={"placeholder": "Search by Project Name"}
+        )
+    )
+
+
+class ProjectTaskSearchForm(forms.Form):
+    name = forms.CharField(
+        max_length=255,
+        required=False,
+        label="",
+        widget=forms.TextInput(
+            attrs={"placeholder": "Search by name project"}
+        )
+    )

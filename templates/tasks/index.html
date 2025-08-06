@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Task Manager{% endblock %}
+
+{% block content %}
+  <section class="section-header overflow-hidden pt-4 pt-lg-5 pb-3 pb-lg-4 bg-primary text-white">
+    <div class="container text-center">
+      <h1 class="fw-bolder">Welcome to the Task Manager</h1>
+      <h2 class="lead fw-normal text-muted mb-6">Manage your team, assign tasks, and track progress efficiently</h2>
+      <br>
+      <div class="row justify-content-center mb-5">
+        <div class="col-6 col-md-3 text-center mb-4">
+          <div class="icon icon-shape bg-white shadow-lg rounded mb-4 mx-auto">
+            <img class="icon-teams" src="{% static 'assets/img/group.svg' %}" alt="Teams Icon">
+          </div>
+          <h3 class="fw-bolder">{{ teams_count }}</h3>
+          <p class="text-gray">Number of Teams</p>
+        </div>
+        <div class="col-6 col-md-3 text-center mb-4">
+          <div class="icon icon-shape bg-white shadow-lg rounded mb-4 mx-auto">
+            <img class="icon-projects" src="{% static 'assets/img/layers.svg' %}" alt="Projects Icon">
+          </div>
+          <h3 class="fw-bolder">{{ projects_count }}</h3>
+          <p class="text-gray">Number of Projects</p>
+        </div>
+
+        <div class="col-6 col-md-3 text-center mb-4">
+          <div class="icon icon-shape bg-white shadow-lg rounded mb-4 mx-auto">
+            <img class="icon-tasks" src="{% static 'assets/img/clipboard.svg' %}" alt="Tasks Icon">
+          </div>
+          <h3 class="fw-bolder">{{ tasks_count }}</h3>
+          <p class="text-gray">Number of Tasks</p>
+        </div>
+        <div class="col-6 col-md-3 text-center mb-4">
+          <div class="icon icon-shape bg-white shadow-lg rounded mb-4 mx-auto">
+            <img class="icon-employees" src="{% static 'assets/img/employee.svg' %}" alt="Employees Icon">
+          </div>
+          <h3 class="fw-bolder">{{ num_worker }}</h3>
+          <p class="text-gray">Number of Employees</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="container my-5">
+    {% if tasks %}
+      <h3>Latest 5 Tasks</h3>
+      <table class="table table-striped table-bordered">
+        <thead>
+        <tr>
+          <th>Name</th>
+          <th>Priority</th>
+          <th>Deadline</th>
+          <th>Task Type</th>
+          <th>Tags</th>
+          <th>Progress</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for task in tasks %}
+          <tr>
+            <td><a href="{% url 'tasks:task-detail' task.id %}" class="link-primary-custom">{{ task.name }}</a></td>
+            <td>{{ task.get_priority_display }}</td>
+            <td>{{ task.deadline }}</td>
+            <td>{{ task.task_type }}</td>
+            <td>{% for tag in task.tags.all %}{{ tag.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
+            <td>
+              {% if task.is_complete %}
+                <span class="badge bg-success">Done</span>
+              {% else %}
+                <span class="badge bg-warning text-dark">In Progress</span>
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <h4>No tasks were found</h4>
+    {% endif %}
+
+    {% if projects %}
+      <h3 class="mt-5">Latest 3 Projects</h3>
+      <table class="table table-striped table-bordered">
+        <thead>
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Total Tasks</th>
+          <th>Active Teams</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for project in projects %}
+          <tr>
+            <td><a href="{% url 'tasks:project-detail' project.id %}"
+                   class="link-primary-custom">{{ project.name }}</a></td>
+            <td>{{ project.description }}</td>
+            <td>{{ project.tasks.count }}</td>
+            <td>
+              {% for team in project.team.all %}
+                {{ team.name }}{% if not forloop.last %}, {% endif %}
+              {% empty %}
+                -
+              {% endfor %}
+            </td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    {% endif %}
+  </section>
+{% endblock %}

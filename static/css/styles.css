@@ -1,0 +1,67 @@
+.sidebar {
+    margin-left: 0;
+    padding-left: 0;
+    list-style-type: none;
+}
+
+.link-primary-custom {
+    color: #0d6efd;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.link-primary-custom:hover {
+    color: #084298;
+    text-decoration: underline;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.main-content {
+    flex: 1;
+}
+
+.icon.icon-shape {
+    width: 60px;
+    height: 60px;
+}
+
+.icon-shape img {
+    width: 40px;
+    height: 40px;
+}
+
+.icon-teams {
+    margin-top: 4px;
+}
+
+.icon-projects {
+    margin-top: 2px;
+}
+
+.icon-tasks {
+    margin-top: -2px;
+}
+
+.icon-employees {
+    margin-top: 3px;
+    margin-left: 5px;
+}
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+.login-container {
+    max-width: 400px;
+}

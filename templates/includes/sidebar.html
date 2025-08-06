@@ -1,0 +1,23 @@
+<ul class="sidebar">
+  {% if user.is_authenticated %}
+    <li class="list-group-item">User:
+      <a href="{% url 'tasks:worker-detail' user.id %}">
+        {{ user.get_username }}
+      </a>
+    </li>
+    <form method="post" action="{% url 'logout' %}">
+      {% csrf_token %}
+      <button type="submit" >Logout</button>
+    </form>
+  {% else %}
+    <li class="list-group-item">
+      <a href="{% url 'login' %}">Login</a>
+    </li>
+  {% endif %}
+  <br>
+  <li class="list-group-item"><a href="{% url 'tasks:index' %}">Home</a></li>
+  <li class="list-group-item"><a href="{% url 'tasks:task-list' %}">Dashboard</a></li>
+  <li class="list-group-item"><a href="{% url 'tasks:team-list' %}">Teams</a></li>
+  <li class="list-group-item"><a href="{% url 'tasks:worker-list' %}">Members</a></li>
+  <li class="list-group-item"><a href="{% url 'tasks:project-list' %}">Project</a></li>
+</ul>
